@@ -22,13 +22,17 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 public class ChassieSubSystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   DifferentialDrive m_drivetrain;
+  SparkMax m_leftFront;
+  SparkMax m_rightFront;
+  SparkMax m_leftRear;
+  SparkMax m_rightRear;
   public ChassieSubSystem() {
-    SparkMax leftFront = new SparkMax(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
-    SparkMax rightFront = new SparkMax(ChassisConstants.kRightFrontCanId, MotorType.kBrushless);
-    SparkMax leftRear = new SparkMax(ChassisConstants.kLeftRearCanId, MotorType.kBrushless);
-    SparkMax rightRear = new SparkMax(ChassisConstants.kRightRearCanId, MotorType.kBrushless);
+    m_leftFront = new SparkMax(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
+    m_rightFront = new SparkMax(ChassisConstants.kRightFrontCanId, MotorType.kBrushless);
+    m_leftRear = new SparkMax(ChassisConstants.kLeftRearCanId, MotorType.kBrushless);
+    m_rightRear = new SparkMax(ChassisConstants.kRightRearCanId, MotorType.kBrushless);
     for(SparkMax motor: new SparkMax[]{
-      leftFront,rightFront,leftRear,rightRear}){
+      m_leftFront,m_rightFront,m_leftRear,m_rightRear}){
         SparkMaxConfig config = new SparkMaxConfig();
         config
           .idleMode(IdleMode.kBrake)
@@ -36,29 +40,41 @@ public class ChassieSubSystem extends SubsystemBase {
         config.softLimit
           .forwardSoftLimitEnabled(false)
           .reverseSoftLimitEnabled(false);
-        config.closedLoopRampRate(0);
+        config.closedLoopRampRate(ChassisConstants.kMotorRampTime);
+        config.encoder.positionConversionFactor(ChassisConstants.kPositionConversionFactor);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        
        
     }
     SparkMaxConfig leftrearConfig = new SparkMaxConfig();
-    leftrearConfig.follow(leftFront);
+    leftrearConfig.follow(m_leftFront);
     leftrearConfig.inverted(false);
-    leftRear.configure(leftrearConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    m_leftRear.configure(leftrearConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     SparkMaxConfig RightrearConfig = new SparkMaxConfig();
-    RightrearConfig.follow(rightFront);
+    RightrearConfig.follow(m_rightFront);
     RightrearConfig.inverted(false);
-    rightRear.configure(RightrearConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    m_rightRear.configure(RightrearConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     
     SparkMaxConfig leftfrontConfig = new SparkMaxConfig();
     
     leftfrontConfig.inverted(false);
-    leftFront.configure(leftfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    leftfrontConfig.closedLoop
+      .p(ChassisConstants.kDriveP)
+      .i(ChassisConstants.kDriveI)
+      .d(ChassisConstants.kDriveD);
+
+    m_leftFront.configure(leftfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     SparkMaxConfig RightfrontConfig = new SparkMaxConfig();
     RightfrontConfig.inverted(true);
-    rightFront.configure(RightfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    RightfrontConfig.closedLoop
+      .p(ChassisConstants.kDriveP)
+      .i(ChassisConstants.kDriveI)
+      .d(ChassisConstants.kDriveD);
+
+    m_rightFront.configure(RightfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
   
     
-    m_drivetrain = new DifferentialDrive(leftFront, rightFront);
+    m_drivetrain = new DifferentialDrive(m_leftFront, m_rightFront);
   }
 
   
@@ -73,6 +89,9 @@ public class ChassieSubSystem extends SubsystemBase {
         () -> m_drivetrain.arcadeDrive(xSpeed, zRotation), this);
   }
   
+  public void arcadeDrive(double xSpeed, double zRotation) {
+    m_drivetrain.arcadeDrive(xSpeed, zRotation);
+  }
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -92,5 +111,25 @@ public class ChassieSubSystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+  public double getAverageTicks() {
+    return (m_leftFront.getEncoder().getPosition()+ m_rightFront.getEncoder().getPosition())/ 2;
+  }
+  public void disableramp() {
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.closedLoopRampRate(0);
+    m_leftFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_rightFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);    
+  }
+  public void enableramp() {
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.closedLoopRampRate(ChassisConstants.kMotorRampTime);
+    m_leftFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_rightFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);    
+
+  }
+  public void zeroEncoders() {
+    m_leftFront.getEncoder().setPosition(0);
+    m_rightFront.getEncoder().setPosition(0);
   }
 }

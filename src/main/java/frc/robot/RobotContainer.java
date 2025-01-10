@@ -45,7 +45,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_ChassieSubsystem::exampleCondition)
-        .onTrue(new DriveDistanceCommand(m_ChassieSubsystem));
+        .onTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
     m_ChassieSubsystem.setDefaultCommand(m_ChassieSubsystem.arcadedriveCommand(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0)));
   }
 

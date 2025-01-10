@@ -4,40 +4,70 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants.ChassisConstants;
+import frc.robot.Constants.MathUtils;
 import frc.robot.subsystems.ChassieSubSystem;
-import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
-public class DriveDistanceCommand extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ChassieSubSystem m_subsystem;
+/** A command that will turn the robot to the specified angle. */
+public class DriveDistanceCommand extends PIDCommand {
+  ChassieSubSystem drivetrain;
+  
 
   /**
-   * Creates a new ExampleCommand.
+   * Turns to robot to the specified angle.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param distance The distance to drive
+   * @param drive    The drive subsystem to use
    */
-  public DriveDistanceCommand(ChassieSubSystem subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+  public DriveDistanceCommand(double distance, ChassieSubSystem drive) {
+    super(
+        new PIDController(ChassisConstants.kDriveP, ChassisConstants.kDriveI, ChassisConstants.kDriveD),
+        // Close loop on heading
+        drive::getAverageTicks,
+        // Set reference to target
+        distance,
+        // Pipe output to turn robot
+        output -> drive.arcadeDrive(MathUtils.Clamp(output, ChassisConstants.kDriveClamp),0),
+        // Require the drive
+        drive);
+       
+    drivetrain = drive;
+
+    SmartDashboard.putData("drivetrain/distance PID controller", this.getController());
+
+
+    // Set the controller to be continuous (because it is an angle controller)
+    // getController().enableContinuousInput(-180, 180);
+    // Set the controller tolerance - the delta tolerance ensures the robot is
+    // stationary at the
+    // setpoint before it is considered as having reached the reference
+    getController()
+        .setTolerance(ChassisConstants.kDriveToleranceInches, ChassisConstants.kDriveToleranceInchesPerS);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    drivetrain.disableramp();
+    drivetrain.zeroEncoders();
+        SmartDashboard.putNumber("drivetrain/encoderticks", drivetrain.getAverageTicks());
+    
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // End when the controller is at the reference.
+    SmartDashboard.putNumber("drivetrain/encoderticks", drivetrain.getAverageTicks());
+    return getController().atSetpoint();
+
+  }
+
+  @Override
+  public void end(boolean interupted) {
+    drivetrain.enableramp();
   }
 }
