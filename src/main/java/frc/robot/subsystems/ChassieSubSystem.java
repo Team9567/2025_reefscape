@@ -6,9 +6,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ChassisConstants;
 
 import com.revrobotics.spark.SparkMax;
+
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.studica.frc.AHRS;
@@ -64,14 +68,11 @@ public class ChassieSubSystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public Command arcadedriveCommand(double xSpeed, double zRotation) {
+    return Commands.run(
+        () -> m_drivetrain.arcadeDrive(xSpeed, zRotation), this);
   }
+  
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
