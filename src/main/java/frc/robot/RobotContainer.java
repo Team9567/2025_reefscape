@@ -5,9 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.subsystems.ChassieSubSystem;
+import frc.robot.subsystems.CoralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,10 +25,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ChassieSubSystem m_ChassieSubsystem = new ChassieSubSystem();
+  private final CoralRoller m_coralRoller = new CoralRoller();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
       new CommandJoystick(OperatorConstants.kDriverControllerPort);
+
+
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandJoystick m_controllerController =
+      new CommandJoystick(ControllerConstants.kControllerControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,10 +52,12 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_ChassieSubsystem::exampleCondition)
         .onTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
+    
     m_ChassieSubsystem.setDefaultCommand(m_ChassieSubsystem.arcadedriveCommand(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0)));
+
+    m_controllerController.button(25).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
   }
 
   /**
