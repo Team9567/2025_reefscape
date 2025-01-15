@@ -58,18 +58,10 @@ public class ChassieSubSystem extends SubsystemBase {
     SparkMaxConfig leftfrontConfig = new SparkMaxConfig();
     
     leftfrontConfig.inverted(false);
-    leftfrontConfig.closedLoop
-      .p(ChassisConstants.kDriveP)
-      .i(ChassisConstants.kDriveI)
-      .d(ChassisConstants.kDriveD);
 
     m_leftFront.configure(leftfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     SparkMaxConfig RightfrontConfig = new SparkMaxConfig();
     RightfrontConfig.inverted(true);
-    RightfrontConfig.closedLoop
-      .p(ChassisConstants.kDriveP)
-      .i(ChassisConstants.kDriveI)
-      .d(ChassisConstants.kDriveD);
 
     m_rightFront.configure(RightfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
   
