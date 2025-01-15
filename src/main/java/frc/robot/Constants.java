@@ -20,6 +20,35 @@ public final class Constants {
   public static class ControllerConstants {
     public static final int kControllerControllerPort = 1;
   }
+  
+  public static class ChassisConstants {
+    public static final int kLeftFrontCanId = 1;
+    public static final int kRightFrontCanId = 3;
+    public static final int kLeftRearCanId = 2;
+    public static final int kRightRearCanId = 4;
+    public static final double kDriveP = 1;
+    public static final double kDriveI = 0;
+    public static final double kDriveD = 0;
+    public static final double kDriveToleranceInches = 0.25;
+    public static final double kDriveToleranceInchesPerS = 0;
+    public static final double kWheelDiameterInches = 4;
+    public static final double kGearRatio = 1.0;
+    public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
+    public static final double kMotorRampTime = 0;
+    public static final double kDriveClamp = 0.5;
+
+  }
+  public static class MathUtils {
+    public static double Clamp(double input, double limit) {
+        if (input > limit) {
+          return limit;
+         } else if (input < -1 * limit){
+            return -1 * limit; 
+         } else{
+            return input;
+          }
+        }
+    }
 
   public static final class RollerConstants {
     public static final int ROLLER_MOTOR_ID = 5;
