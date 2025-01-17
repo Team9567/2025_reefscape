@@ -27,7 +27,7 @@ public class ChassieSubSystem extends SubsystemBase {
   SparkMax m_rightFront;
   SparkMax m_leftRear;
   SparkMax m_rightRear;
-  private final AHRS m_gyro = new AHRS(NavXComType.kI2C);
+  private final AHRS m_gyro = new AHRS(ChassisConstants.kGyroPort);
 
   public ChassieSubSystem() {
     m_leftFront = new SparkMax(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
