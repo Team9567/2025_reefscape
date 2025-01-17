@@ -4,14 +4,25 @@
 
 package frc.robot.commands;
 
+import frc.robot.commands.DriveDistanceCommand;
+import frc.robot.Constants.AutosConstants;
 import frc.robot.subsystems.ChassieSubSystem;
+import frc.robot.subsystems.CoralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static Command exampleAuto(ChassieSubSystem subsystem) {
+  public static Command simpleAutoLeft(ChassieSubSystem subsystem) {
+    return new InstantCommand();
+  }
+
+  public static Command simpleAutoMiddle(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
+    return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem).andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+  }
+
+  public static Command simpleAutoRight(ChassieSubSystem subsystem) {
     return new InstantCommand();
   }
 
