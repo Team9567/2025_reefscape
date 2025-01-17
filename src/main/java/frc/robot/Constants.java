@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -22,6 +23,7 @@ public final class Constants {
   }
   
   public static class ChassisConstants {
+    public static final int kDriverControllerPort = 0;
     public static final int kLeftFrontCanId = 1;
     public static final int kRightFrontCanId = 3;
     public static final int kLeftRearCanId = 2;
@@ -29,13 +31,21 @@ public final class Constants {
     public static final double kDriveP = 1;
     public static final double kDriveI = 0;
     public static final double kDriveD = 0;
+    public static final double kTurnP = 0.0;
+    public static final double kTurnI = 0.0;
+    public static final double kTurnD  = 0.0;
     public static final double kDriveToleranceInches = 0.25;
     public static final double kDriveToleranceInchesPerS = 0;
+    public static final double kTurnToleranceDeg = 1;
+    public static final double kTurnRateToleranceDegPerS = 1;
     public static final double kWheelDiameterInches = 4;
     public static final double kGearRatio = 1.0;
     public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
     public static final double kMotorRampTime = 0;
     public static final double kDriveClamp = 0.5;
+    public static final double kTurnClamp = 0.5;
+    public static boolean kGyroReversed;
+   
 
   }
   public static class MathUtils {
