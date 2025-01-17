@@ -3,7 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.SerialPort.Port;
+
+import com.studica.frc.AHRS.NavXComType;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -44,7 +46,8 @@ public final class Constants {
     public static final double kMotorRampTime = 0;
     public static final double kDriveClamp = 0.5;
     public static final double kTurnClamp = 0.5;
-    public static boolean kGyroReversed;
+    public static final boolean kGyroReversed = true;
+    public static final NavXComType kGyroPort = NavXComType.kI2C;
    
 
   }

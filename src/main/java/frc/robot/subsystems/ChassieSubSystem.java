@@ -15,6 +15,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -26,7 +27,7 @@ public class ChassieSubSystem extends SubsystemBase {
   SparkMax m_rightFront;
   SparkMax m_leftRear;
   SparkMax m_rightRear;
-  private AHRS m_gyro;
+  private final AHRS m_gyro = new AHRS(NavXComType.kI2C);
 
   public ChassieSubSystem() {
     m_leftFront = new SparkMax(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
