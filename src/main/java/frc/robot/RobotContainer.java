@@ -44,7 +44,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    autochooser.addOption("test", Autos.exampleAuto(m_ChassieSubsystem));
+    autochooser.addOption("left", Autos.simpleAutoLeft(m_ChassieSubsystem));
+    autochooser.addOption("middle", Autos.simpleAutoMiddle(m_ChassieSubsystem, m_coralRoller));
+    autochooser.addOption("right", Autos.simpleAutoRight(m_ChassieSubsystem));
     SmartDashboard.putData("AutoPosition", autochooser);
 
   }
@@ -74,6 +76,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_ChassieSubsystem);
+    return autochooser.getSelected();
   }
 }

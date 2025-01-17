@@ -69,4 +69,10 @@ public final class Constants {
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
+
+  public static final class AutosConstants {
+    public static final double k_middleDist1 = 0.0;
+    public static final double k_rollerForwardSpeed = 0.0;
+    public static final double k_rollerReverseSpeed = 0.0;
+  }
 }
