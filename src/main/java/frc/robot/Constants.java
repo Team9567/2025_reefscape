@@ -71,7 +71,13 @@ public final class Constants {
   }
 
   public static final class AutosConstants {
+    public static final double k_leftDist1 = 0.0;
+    public static final double k_leftDist2 = 0.0;
     public static final double k_middleDist1 = 0.0;
+    public static final double k_rightDist1 = 0.0;
+    public static final double k_rightDist2 = 0.0;
+    public static final double k_leftAngle1 = 0.0;
+    public static final double k_rightAngle1 = 0.0;
     public static final double k_rollerForwardSpeed = 0.0;
     public static final double k_rollerReverseSpeed = 0.0;
   }
