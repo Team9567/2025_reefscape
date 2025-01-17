@@ -14,16 +14,24 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static Command simpleAutoLeft(ChassieSubSystem subsystem) {
-    return new InstantCommand();
+  public static Command simpleAutoLeft(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
+    return new DriveDistanceCommand(AutosConstants.k_leftDist1, subsystem)
+      .andThen(new TurnToAngle(AutosConstants.k_leftAngle1, subsystem))
+      .andThen(new DriveDistanceCommand(AutosConstants.k_leftDist2, subsystem))
+      .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+    
   }
 
   public static Command simpleAutoMiddle(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
-    return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem).andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+    return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem)
+      .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
   }
 
-  public static Command simpleAutoRight(ChassieSubSystem subsystem) {
-    return new InstantCommand();
+  public static Command simpleAutoRight(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
+    return new DriveDistanceCommand(AutosConstants.k_rightDist1, subsystem)
+      .andThen(new TurnToAngle(AutosConstants.k_rightAngle1, subsystem))
+      .andThen(new DriveDistanceCommand(AutosConstants.k_rightDist2, subsystem))
+      .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
   }
 
   private Autos() {
