@@ -26,10 +26,10 @@ public final class Constants {
   
   public static class ChassisConstants {
     public static final int kDriverControllerPort = 0;
-    public static final int kLeftFrontCanId = 1;
-    public static final int kRightFrontCanId = 3;
-    public static final int kLeftRearCanId = 2;
-    public static final int kRightRearCanId = 4;
+    public static final int kLeftFrontCanId = 2;
+    public static final int kRightFrontCanId = 4;
+    public static final int kLeftRearCanId = 1;
+    public static final int kRightRearCanId = 3;
     public static final double kDriveP = 1;
     public static final double kDriveI = 0;
     public static final double kDriveD = 0;
