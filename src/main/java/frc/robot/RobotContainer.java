@@ -4,19 +4,19 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.CoralRoller;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -64,9 +64,13 @@ public class RobotContainer {
     new Trigger(m_ChassieSubsystem::exampleCondition)
         .onTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
     
-    m_ChassieSubsystem.setDefaultCommand(m_ChassieSubsystem.arcadedriveCommand(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0)));
+    m_ChassieSubsystem.setDefaultCommand(new RunCommand(
+      () -> {
+        m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0));
+      }, m_ChassieSubsystem));
 
-    m_controllerController.button(25).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+    m_driverController.button(3).whileTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
+    m_controllerController.button(3).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
   }
 
   /**

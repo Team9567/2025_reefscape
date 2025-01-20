@@ -4,21 +4,17 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ChassisConstants;
-
-import com.revrobotics.spark.SparkMax;
-
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.studica.frc.AHRS;
-import com.studica.frc.AHRS.NavXComType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.studica.frc.AHRS;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ChassisConstants;
 
 public class ChassieSubSystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -70,15 +66,6 @@ public class ChassieSubSystem extends SubsystemBase {
     m_drivetrain = new DifferentialDrive(m_leftFront, m_rightFront);
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command arcadedriveCommand(double xSpeed, double zRotation) {
-    return Commands.run(
-        () -> m_drivetrain.arcadeDrive(xSpeed, zRotation), this);
-  }
 
   public void arcadeDrive(double xSpeed, double zRotation) {
     m_drivetrain.arcadeDrive(xSpeed, zRotation);
