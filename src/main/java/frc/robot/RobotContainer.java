@@ -65,8 +65,9 @@ public class RobotContainer {
         .onTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
     
     m_ChassieSubsystem.setDefaultCommand(m_ChassieSubsystem.arcadedriveCommand(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0)));
-
-    m_controllerController.button(25).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+    m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
+    m_controllerController.button(3).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+  
   }
 
   /**
