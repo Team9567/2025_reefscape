@@ -81,4 +81,8 @@ public final class Constants {
     public static final double k_rollerForwardSpeed = 0.0;
     public static final double k_rollerReverseSpeed = 0.0;
   }
+
+  public static final class RobotConstants {
+    public static final boolean k_IsCompBot = true;
+  }
 }
