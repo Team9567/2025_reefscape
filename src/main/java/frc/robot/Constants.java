@@ -41,7 +41,7 @@ public final class Constants {
     public static final double kTurnToleranceDeg = 1;
     public static final double kTurnRateToleranceDegPerS = 1;
     public static final double kWheelDiameterInches = 4;
-    public static final double kGearRatio = 1.0;
+    public static final double kGearRatio = 8.46;
     public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
     public static final double kMotorRampTime = 0;
     public static final double kDriveClamp = 0.5;
@@ -49,7 +49,6 @@ public final class Constants {
     public static final boolean kGyroReversed = true;
     public static final NavXComType kGyroPort = NavXComType.kI2C;
    
-
   }
   public static class MathUtils {
     public static double Clamp(double input, double limit) {
@@ -68,6 +67,7 @@ public final class Constants {
     public static final int ROLLER_MOTOR_CURRENT_LIMIT = 60;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
     public static final double ROLLER_EJECT_VALUE = 0.44;
+    public static final double ROLLER_GEAR_RATIO = 2.0;
   }
 
   public static final class AlgaeConstants {
