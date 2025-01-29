@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RollerConstants;
+import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
@@ -29,8 +30,8 @@ import frc.robot.subsystems.AlgaePickerSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ChassieSubSystem m_ChassieSubsystem = new ChassieSubSystem();
-  private final CoralRoller m_coralRoller = new CoralRoller();
-  private final AlgaePickerSubsystem m_algaePicker = new AlgaePickerSubsystem();
+  private final CoralRoller m_coralRoller;
+  private final AlgaePickerSubsystem m_algaePicker;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
@@ -45,6 +46,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    if (RobotConstants.k_IsCompBot) {
+      m_coralRoller = new CoralRoller();
+      m_algaePicker = new AlgaePickerSubsystem();
+    }
     // Configure the trigger bindings
     configureBindings();
     autochooser.addOption("left", Autos.simpleAutoLeft(m_ChassieSubsystem, m_coralRoller));
@@ -67,11 +72,15 @@ public class RobotContainer {
     new Trigger(m_ChassieSubsystem::exampleCondition)
         .onTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
     
-    m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, () -> 0, () -> 0));
-    m_controllerController.button(3).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
-    
-    m_algaePicker.setDefaultCommand(m_algaePicker.runAlgaePicker(m_algaePicker, () -> 0, () -> 0));
-    m_controllerController.button(1).whileTrue(m_algaePicker.runAlgaePicker(m_algaePicker, () -> AlgaeConstants.ALGAE_EJECT_VALUE, () -> 0));
+    if (m_coralRoller != null) {
+      m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
+      m_controllerController.button(3).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+    }
+
+    if (m_algaePicker != null) {
+      m_algaePicker.setDefaultCommand(m_algaePicker.runAlgaePicker(m_algaePicker, () -> 0, () -> 0));
+      m_controllerController.button(1).whileTrue(m_algaePicker.runAlgaePicker(m_algaePicker, () -> AlgaeConstants.ALGAE_EJECT_VALUE, () -> 0));
+    }
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
       () -> {
