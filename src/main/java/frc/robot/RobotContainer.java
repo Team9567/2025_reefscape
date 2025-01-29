@@ -48,7 +48,7 @@ public class RobotContainer {
   public RobotContainer() {
     if (RobotConstants.k_IsCompBot) {
       m_coralRoller = new CoralRoller();
-      m_algaePicker = new AlgaePicker();
+      m_algaePicker = new AlgaePickerSubsystem();
     }
     // Configure the trigger bindings
     configureBindings();
