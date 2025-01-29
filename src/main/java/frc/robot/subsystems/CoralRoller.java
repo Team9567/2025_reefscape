@@ -21,7 +21,7 @@ public class CoralRoller extends SubsystemBase {
   private final SparkMax rollerMotor;
 
   public CoralRoller() {
-    // Set up the roller motor as a brushed motor
+    // Set up the roller motor as a brushless motor
     rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushless);
 
     // Set can timeout. Because this project only sets parameters once on
@@ -36,6 +36,7 @@ public class CoralRoller extends SubsystemBase {
     SparkMaxConfig rollerConfig = new SparkMaxConfig();
     rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
     rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
+    rollerConfig.inverted(true);
     rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 

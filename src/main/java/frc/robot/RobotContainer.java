@@ -14,10 +14,12 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Constants.AlgaeConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.CoralRoller;
+import frc.robot.subsystems.AlgaePickerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,6 +31,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ChassieSubSystem m_ChassieSubsystem = new ChassieSubSystem();
   private final CoralRoller m_coralRoller;
+  private final AlgaePickerSubsystem m_algaePicker;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
@@ -45,6 +48,7 @@ public class RobotContainer {
   public RobotContainer() {
     if (RobotConstants.k_IsCompBot) {
       m_coralRoller = new CoralRoller();
+      m_algaePicker = new AlgaePicker();
     }
     // Configure the trigger bindings
     configureBindings();
@@ -71,6 +75,11 @@ public class RobotContainer {
     if (m_coralRoller != null) {
       m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
       m_controllerController.button(3).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+    }
+
+    if (m_algaePicker != null) {
+      m_algaePicker.setDefaultCommand(m_algaePicker.runAlgaePicker(m_algaePicker, () -> 0, () -> 0));
+      m_controllerController.button(1).whileTrue(m_algaePicker.runAlgaePicker(m_algaePicker, () -> AlgaeConstants.ALGAE_EJECT_VALUE, () -> 0));
     }
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(

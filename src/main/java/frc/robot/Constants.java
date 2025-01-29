@@ -70,6 +70,13 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
 
+  public static final class AlgaeConstants {
+    public static final int ALGAE_MOTOR_ID = 6;
+    public static final int ALGAE_MOTOR_CURRENT_LIMIT = 60;
+    public static final double ALGAE_MOTOR_VOLTAGE_COMP = 10;
+    public static final double ALGAE_EJECT_VALUE = 0.44;
+  }
+
   public static final class AutosConstants {
     public static final double k_leftDist1 = 0.0;
     public static final double k_leftDist2 = 0.0;
