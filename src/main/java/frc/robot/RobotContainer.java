@@ -84,7 +84,7 @@ public class RobotContainer {
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
       () -> {
-        m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0));
+        m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(4));
       }, m_ChassieSubsystem));
 
     m_driverController.button(3).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));

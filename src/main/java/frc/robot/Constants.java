@@ -32,7 +32,7 @@ public final class Constants {
     public static final int kRightRearCanId = 3;
     public static final double kDriveP = 1;
     public static final double kDriveI = 0;
-    public static final double kDriveD = 0;
+    public static final double kDriveD = 0.12;
     public static final double kTurnP = 0.0;
     public static final double kTurnI = 0.0;
     public static final double kTurnD  = 0.0;
@@ -90,6 +90,6 @@ public final class Constants {
   }
 
   public static final class RobotConstants {
-    public static final boolean k_IsCompBot = true;
+    public static final boolean k_IsCompBot = false;
   }
 }
