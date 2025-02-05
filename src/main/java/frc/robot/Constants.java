@@ -36,11 +36,11 @@ public final class Constants {
     public static final double kTurnP = 0.0;
     public static final double kTurnI = 0.0;
     public static final double kTurnD  = 0.0;
-    public static final double kDriveToleranceInches = 0.25;
+    public static final double kDriveToleranceInches = 1.0;
     public static final double kDriveToleranceInchesPerS = 0;
     public static final double kTurnToleranceDeg = 1;
     public static final double kTurnRateToleranceDegPerS = 1;
-    public static final double kWheelDiameterInches = 4;
+    public static final double kWheelDiameterInches = 6.17;
     public static final double kGearRatio = 8.46;
     public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
     public static final double kMotorRampTime = 0;
