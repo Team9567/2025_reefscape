@@ -30,8 +30,8 @@ import frc.robot.subsystems.AlgaePickerSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ChassieSubSystem m_ChassieSubsystem = new ChassieSubSystem();
-  private final CoralRoller m_coralRoller;
-  private final AlgaePickerSubsystem m_algaePicker;
+  private CoralRoller m_coralRoller;
+  private AlgaePickerSubsystem m_algaePicker;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
@@ -87,7 +87,7 @@ public class RobotContainer {
         m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(0));
       }, m_ChassieSubsystem));
 
-    m_driverController.button(3).whileTrue(new DriveDistanceCommand(10, m_ChassieSubsystem));
+    m_driverController.button(3).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
   }
 
   /**
