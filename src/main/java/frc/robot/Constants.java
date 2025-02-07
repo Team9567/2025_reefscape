@@ -23,6 +23,19 @@ public final class Constants {
   public static class ControllerConstants {
     public static final int kControllerControllerPort = 1;
   }
+
+  public static class ButtonConstants {
+    public static final int kButtonX = 3;
+    public static final int kButtonY = 4;
+    public static final int kButtonB = 2;
+    public static final int kButtonA = 1;
+    public static final int kButtonLB = 5;
+    public static final int kButtonRB = 6;
+    public static final int kButtonLeftStick = 9;
+    public static final int kButtonRightStick = 10;
+    public static final int kButtonBack = 7;
+    public static final int kButtonStart = 8;
+  }
   
   public static class ChassisConstants {
     public static final int kDriverControllerPort = 0;

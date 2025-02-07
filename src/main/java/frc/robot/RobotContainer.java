@@ -15,6 +15,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.ButtonConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.subsystems.ChassieSubSystem;
@@ -74,12 +75,12 @@ public class RobotContainer {
     
     if (m_coralRoller != null) {
       m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
-      m_controllerController.button(3).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+      m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
     }
 
     if (m_algaePicker != null) {
       m_algaePicker.setDefaultCommand(m_algaePicker.runAlgaePicker(m_algaePicker, () -> 0, () -> 0));
-      m_controllerController.button(1).whileTrue(m_algaePicker.runAlgaePicker(m_algaePicker, () -> AlgaeConstants.ALGAE_EJECT_VALUE, () -> 0));
+      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(m_algaePicker.runAlgaePicker(m_algaePicker, () -> AlgaeConstants.ALGAE_EJECT_VALUE, () -> 0));
     }
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
@@ -87,7 +88,7 @@ public class RobotContainer {
         m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(4));
       }, m_ChassieSubsystem));
 
-    m_driverController.button(3).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
+    m_driverController.button(ButtonConstants.kButtonX).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
   }
 
   /**
