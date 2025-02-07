@@ -46,7 +46,7 @@ public final class Constants {
     public static final double kDriveP = 1;
     public static final double kDriveI = 0;
     public static final double kDriveD = 0.12;
-    public static final double kTurnP = 0.1;
+    public static final double kTurnP = 0.0;
     public static final double kTurnI = 0.0;
     public static final double kTurnD  = 0.0;
     public static final double kDriveToleranceInches = 1.0;
