@@ -24,9 +24,10 @@ public class ChassieSubSystem extends SubsystemBase {
   SparkMax m_rightFront;
   SparkMax m_leftRear;
   SparkMax m_rightRear;
-  private final AHRS m_gyro = new AHRS(ChassisConstants.kGyroPort);
+  private AHRS m_gyro;
 
   public ChassieSubSystem() {
+    m_gyro = new AHRS(ChassisConstants.kGyroPort);
     m_leftFront = new SparkMax(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
     m_rightFront = new SparkMax(ChassisConstants.kRightFrontCanId, MotorType.kBrushless);
     m_leftRear = new SparkMax(ChassisConstants.kLeftRearCanId, MotorType.kBrushless);
@@ -87,6 +88,7 @@ public class ChassieSubSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("drivetrain/encoderticks", getAverageTicks());
+    SmartDashboard.putNumber("angle", m_gyro.getAngle());
   }
 
   @Override
