@@ -79,8 +79,8 @@ public class RobotContainer {
     }
 
     if (m_algaePicker != null) {
-      m_algaePicker.setDefaultCommand(m_algaePicker.runAlgaePicker(m_algaePicker, () -> 0, () -> 0));
-      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(m_algaePicker.runAlgaePicker(m_algaePicker, () -> AlgaeConstants.ALGAE_EJECT_VALUE, () -> 0));
+      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(m_algaePicker.reachForAlgae(m_algaePicker).alongWith(m_algaePicker.getAlgae(m_algaePicker)));
+      m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.returnArm(m_algaePicker));
     }
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
