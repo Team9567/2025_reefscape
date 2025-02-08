@@ -46,12 +46,12 @@ public final class Constants {
     public static final double kDriveP = 1;
     public static final double kDriveI = 0;
     public static final double kDriveD = 0.12;
-    public static final double kTurnP = 0.0;
+    public static final double kTurnP = 0.06;
     public static final double kTurnI = 0.0;
-    public static final double kTurnD  = 0.0;
+    public static final double kTurnD  = 0.004;
     public static final double kDriveToleranceInches = 1.0;
     public static final double kDriveToleranceInchesPerS = 0;
-    public static final double kTurnToleranceDeg = 1;
+    public static final double kTurnToleranceDeg = 1.5;
     public static final double kTurnRateToleranceDegPerS = 1;
     public static final double kWheelDiameterInches = 6.17;
     public static final double kGearRatio = 8.46;
@@ -60,7 +60,7 @@ public final class Constants {
     public static final double kDriveClamp = 0.5;
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
-    public static final NavXComType kGyroPort = NavXComType.kI2C;
+    public static final NavXComType kGyroPort = NavXComType.kMXP_SPI;
    
   }
   public static class MathUtils {

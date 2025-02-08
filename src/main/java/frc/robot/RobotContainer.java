@@ -18,6 +18,7 @@ import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ButtonConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.CoralRoller;
 import frc.robot.subsystems.AlgaePickerSubsystem;
@@ -89,6 +90,8 @@ public class RobotContainer {
       }, m_ChassieSubsystem));
 
     m_driverController.button(ButtonConstants.kButtonX).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
+    m_driverController.button(ButtonConstants.kButtonB).whileTrue(new TurnToAngle(90, m_ChassieSubsystem));
+    m_driverController.button(ButtonConstants.kButtonA).whileTrue(new TurnToAngle(15, m_ChassieSubsystem));
   }
 
   /**

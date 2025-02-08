@@ -54,7 +54,7 @@ public class DriveDistanceCommand extends PIDCommand {
   public void initialize() {
     drivetrain.disableramp();
     drivetrain.zeroEncoders();
-        SmartDashboard.putNumber("drivetrain/encoderticks", drivetrain.getAverageTicks());
+    SmartDashboard.putNumber("drivetrain/encoderticks", drivetrain.getAverageTicks());
     
   }
 
