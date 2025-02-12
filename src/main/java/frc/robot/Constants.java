@@ -79,7 +79,7 @@ public final class Constants {
     public static final int ROLLER_MOTOR_ID = 5;
     public static final int ROLLER_MOTOR_CURRENT_LIMIT = 60;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
-    public static final double ROLLER_EJECT_VALUE = 0.44;
+    public static final double ROLLER_EJECT_VALUE = 0.30;
     public static final double ROLLER_GEAR_RATIO = 2.0;
   }
 
@@ -112,6 +112,6 @@ public final class Constants {
   }
 
   public static final class RobotConstants {
-    public static final boolean k_IsCompBot = false;
+    public static final boolean k_IsCompBot = true;
   }
 }
