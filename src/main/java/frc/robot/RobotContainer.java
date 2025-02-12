@@ -78,12 +78,12 @@ public class RobotContainer {
       m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
       m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
     }
-
+/*
     if (m_algaePicker != null) {
       m_controllerController.button(ButtonConstants.kButtonA).whileTrue(m_algaePicker.reachForAlgae(m_algaePicker).alongWith(m_algaePicker.getAlgae(m_algaePicker)));
       m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.returnArm(m_algaePicker));
     }
-  
+  */
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
       () -> {
         m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(4));

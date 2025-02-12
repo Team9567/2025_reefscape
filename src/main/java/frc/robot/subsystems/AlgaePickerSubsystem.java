@@ -23,23 +23,23 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     final SparkMax pivotMotor;
     final SparkMax intakeMotor;
     final AbsoluteEncoder pivotEncoder;
-    final LaserCan algaeRanger;
+    LaserCan algaeRanger;
 
     public AlgaePickerSubsystem() {
         // Set up the roller motor as a brushless motor
         pivotMotor = new SparkMax(AlgaeConstants.PIVOT_MOTOR_ID, MotorType.kBrushless);
         intakeMotor = new SparkMax(AlgaeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
         pivotEncoder = pivotMotor.getAbsoluteEncoder();
-        
+        /*
         algaeRanger = new LaserCan(AlgaeConstants.ALGAE_RANGER_ID);
         try {
             algaeRanger.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
         }
-
+        
         catch (ConfigurationFailedException e) {
             System.out.println("LaserCan error " + e);
         }
-
+        */
         pivotMotor.setCANTimeout(250);
         intakeMotor.setCANTimeout(250);
 
