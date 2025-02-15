@@ -81,6 +81,9 @@ public final class Constants {
     public static final int ROLLER_MOTOR_CURRENT_LIMIT = 60;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
     public static final double ROLLER_EJECT_VALUE = 0.30;
+    public static final double ROLLER_EJECT_VALUE2 = 0.0;
+    public static final double ROLLER_REVERSE_VALUE = 0.0;
+    public static final double ROLLER_REVERSE_VALUE2 = 0.3;
     public static final double ROLLER_GEAR_RATIO = 2.0;
   }
 
