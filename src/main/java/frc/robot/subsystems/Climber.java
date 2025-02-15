@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 import java.util.function.DoubleSupplier;
 
+import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -38,7 +39,7 @@ public class Climber extends SubsystemBase{
         SparkMaxConfig climberConfig = new SparkMaxConfig();
         climberConfig.voltageCompensation(ClimberConstants.CLIMBER_MOTOR_VOLTAGE_COMP);
         climberConfig.smartCurrentLimit(ClimberConstants.CLIMBER_MOTOR_CURRENT_LIMIT);
-        climberConfig.inverted(true);
+        climberConfig.inverted(false);
         climberConfig.softLimit
             .forwardSoftLimitEnabled(softLimitEnabled)
             .reverseSoftLimitEnabled(softLimitEnabled);
@@ -66,7 +67,7 @@ public class Climber extends SubsystemBase{
             climberMotor.getEncoder().setPosition(0);
             setMotorConfig(true);
             initialized = true;
-
+            
         }
     }
 
@@ -76,8 +77,14 @@ public class Climber extends SubsystemBase{
     }
 
     // Command to run the roller with joystick inputs
-    public Command runRoller(CoralRoller rollerSubsystem, DoubleSupplier forward, DoubleSupplier reverse) {
+    public Command extendClimber(Climber climberSubsystem) {
+        
         return Commands.run(
-                () -> climberMotor.set(forward.getAsDouble() - reverse.getAsDouble()), rollerSubsystem);
+                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_UP_LIMIT), climberSubsystem)
+                        .until(
+                            () -> climberMotor.get() < .01
+
+                        );
+
     }
 }
