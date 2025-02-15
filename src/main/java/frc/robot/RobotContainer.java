@@ -19,6 +19,7 @@ import frc.robot.Constants.ButtonConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.subsystems.ChassieSubSystem;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralRoller;
 import frc.robot.subsystems.AlgaePickerSubsystem;
 
@@ -33,6 +34,8 @@ public class RobotContainer {
   private final ChassieSubSystem m_ChassieSubsystem = new ChassieSubSystem();
   private CoralRoller m_coralRoller;
   private AlgaePickerSubsystem m_algaePicker;
+  private Climber m_climber;
+  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
@@ -50,6 +53,7 @@ public class RobotContainer {
     if (RobotConstants.k_IsCompBot) {
       m_coralRoller = new CoralRoller();
       m_algaePicker = new AlgaePickerSubsystem();
+      m_climber = new Climber();
     }
     // Configure the trigger bindings
     configureBindings();
@@ -82,6 +86,11 @@ public class RobotContainer {
       m_controllerController.button(ButtonConstants.kButtonA).whileTrue(m_algaePicker.reachForAlgae(m_algaePicker).alongWith(m_algaePicker.getAlgae(m_algaePicker)));
       m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.returnArm(m_algaePicker));
     }
+    if(m_climber != null) {
+      m_controllerController.button(ButtonConstants.kButtonY).whileTrue(m_climber.extendClimber(m_climber));
+      m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(m_climber.reverseClimber(m_climber));
+    }
+  
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
       () -> {
