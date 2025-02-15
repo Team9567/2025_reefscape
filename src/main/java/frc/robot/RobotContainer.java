@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
@@ -16,6 +17,7 @@ import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ButtonConstants;
+import frc.robot.Constants.ChassisConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.TurnToAngle;
@@ -32,6 +34,7 @@ import frc.robot.subsystems.AlgaePickerSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ChassieSubSystem m_ChassieSubsystem = new ChassieSubSystem();
+  private boolean m_inLowGear = false;
   private CoralRoller m_coralRoller;
   private AlgaePickerSubsystem m_algaePicker;
 
@@ -86,12 +89,28 @@ public class RobotContainer {
   */
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
       () -> {
-        m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(4));
+        if (m_inLowGear) {
+          m_ChassieSubsystem.arcadeDrive(
+            m_driverController.getRawAxis(1) * ChassisConstants.kLowGearSpeed,
+            m_driverController.getRawAxis(4) * ChassisConstants.kLowGearSpeed
+          );
+        }
+        else {
+          m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(4));
+        }
       }, m_ChassieSubsystem));
 
     m_driverController.button(ButtonConstants.kButtonX).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
     m_driverController.button(ButtonConstants.kButtonB).whileTrue(new TurnToAngle(90, m_ChassieSubsystem));
     m_driverController.button(ButtonConstants.kButtonA).whileTrue(new TurnToAngle(15, m_ChassieSubsystem));
+    m_driverController.button(ButtonConstants.kButtonRB).onTrue(new RunCommand(
+      () -> {
+        m_inLowGear = true;
+      }));
+    m_driverController.button(ButtonConstants.kButtonRB).onFalse(new RunCommand(
+      () -> {
+        m_inLowGear = false;
+      }));
   }
 
   /**
