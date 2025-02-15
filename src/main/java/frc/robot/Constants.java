@@ -61,6 +61,7 @@ public final class Constants {
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
     public static final NavXComType kGyroPort = NavXComType.kMXP_SPI;
+    public static final double kLowGearSpeed = 0.25;
    
   }
   public static class MathUtils {
