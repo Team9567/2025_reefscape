@@ -87,4 +87,14 @@ public class Climber extends SubsystemBase{
                         );
 
     }
+    public Command reverseClimber(Climber climberSubsystem) {
+        
+        return Commands.run(
+                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_DOWN_LIMIT), climberSubsystem)
+                        .until(
+                            () -> climberMotor.get() > -.01
+
+                        );
+
+    }
 }
