@@ -56,7 +56,7 @@ public final class Constants {
     public static final double kWheelDiameterInches = 6.17;
     public static final double kGearRatio = 8.46;
     public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
-    public static final double kMotorRampTime = 0;
+    public static final double kMotorRampTime = 0.5;
     public static final double kDriveClamp = 0.5;
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
