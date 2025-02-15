@@ -37,7 +37,7 @@ public class ChassieSubSystem extends SubsystemBase {
       SparkMaxConfig config = new SparkMaxConfig();
       config
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(60);
+          .smartCurrentLimit(30);
       config.softLimit
           .forwardSoftLimitEnabled(false)
           .reverseSoftLimitEnabled(false);
