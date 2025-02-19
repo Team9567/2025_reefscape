@@ -79,7 +79,9 @@ public class RobotContainer {
     
     if (m_coralRoller != null) {
       m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
-      m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0));
+      m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
+      m_controllerController.button(ButtonConstants.kButtonRB).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_REVERSE_VALUE, () -> RollerConstants.ROLLER_REVERSE_VALUE2));
+      m_controllerController.button(ButtonConstants.kButtonY).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_SLOW_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
     }
 /*
     if (m_algaePicker != null) {
