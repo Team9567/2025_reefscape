@@ -58,6 +58,22 @@ public class AlgaePickerSubsystem extends SubsystemBase {
          return -1;
     }
 
+    public void runpivotmotor(double speed){
+        pivotMotor.set(speed);
+    }
+    public void runintakemotor(double speed){
+        intakeMotor.set(speed);
+    }
+    public boolean algaeinrange(){
+        return distanceToAlgaeInMm() > AlgaeConstants.SENSOR_LIMIT || distanceToAlgaeInMm() == -1;
+    }
+    public boolean arminintakeposition(){
+        return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION;
+    }
+    public boolean arminhomeposition(){
+        return pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
+    }
+
     public Command reachForAlgae(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
@@ -65,7 +81,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             () -> pivotMotor.set(0),
             algaeSubsystem)
             .onlyWhile(
-                () -> (pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION)
+                () -> (arminintakeposition())
             );
 
     }
@@ -77,7 +93,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             () -> intakeMotor.set(0),
             algaeSubsystem)
             .onlyWhile(
-                () -> (distanceToAlgaeInMm() > AlgaeConstants.SENSOR_LIMIT || distanceToAlgaeInMm() == -1)
+                () -> (algaeinrange())
             );
 
     }
@@ -89,7 +105,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             () -> pivotMotor.set(0),
             algaeSubsystem)
             .onlyWhile(
-                () -> (pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION)
+                () -> (arminhomeposition())
             );
     }
 
