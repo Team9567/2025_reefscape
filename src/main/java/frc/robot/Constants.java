@@ -109,8 +109,8 @@ public final class Constants {
     public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
     public static final double CLIMBER_MOTOR_VOLTAGE_COMP = 0;
     public static final double CLIMBER_MOTOR_INITIALIZE_SPEED = 0.05;
-    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.05;
-    public static final double CLIMBER_MOTOR_UP_LIMIT = 0.05;
+    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
+    public static final double CLIMBER_MOTOR_UP_LIMIT = 1140.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
   }
 
