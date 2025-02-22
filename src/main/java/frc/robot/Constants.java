@@ -61,7 +61,7 @@ public final class Constants {
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
     public static final NavXComType kGyroPort = NavXComType.kMXP_SPI;
-    public static final double kLowGearSpeed = 0.25;
+    public static final double kLowGearSpeed = 0.35;
    
   }
   public static class MathUtils {
@@ -84,7 +84,7 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE2 = 0.0;
     public static final double ROLLER_SLOW_EJECT_VALUE = 0.20;
     public static final double ROLLER_REVERSE_VALUE = 0.0;
-    public static final double ROLLER_REVERSE_VALUE2 = 0.3;
+    public static final double ROLLER_REVERSE_VALUE2 = 0.65;
     public static final double ROLLER_GEAR_RATIO = 2.0;
   }
 
@@ -112,7 +112,7 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
     public static final double CLIMBER_MOTOR_UP_LIMIT = 1140.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
-    public static final double CLIMBER_MOTOR_UP_SPEED = 0.75;
+    public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
     public static final double CLIMBER_MOTOR_DOWN_SPEED = -0.50;
   }
 
