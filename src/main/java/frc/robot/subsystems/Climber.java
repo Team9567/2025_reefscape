@@ -1,18 +1,17 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
-import java.util.function.DoubleSupplier;
-
-import com.revrobotics.spark.SparkLimitSwitch;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Climber extends SubsystemBase{
     private final SparkMax climberMotor;
@@ -51,16 +50,23 @@ public class Climber extends SubsystemBase{
     }
 
     public boolean getLimitSwitch() {
-        return limitChannel.get();
+        return !limitChannel.get();
     }
 
     public void initializeClimber() {
+        SmartDashboard.putBoolean("climber/limitswitch", getLimitSwitch());
+        SmartDashboard.putBoolean("climber/initialized", initialized);
+        SmartDashboard.putNumber("climber/speed", climberMotor.get());
+        SmartDashboard.putNumber("climber/encoder", climberMotor.getEncoder().getPosition());
+        
         if (initialized == true) {
             return;
         }
         if (getLimitSwitch() == false) {
             climberMotor.set(ClimberConstants.CLIMBER_MOTOR_INITIALIZE_SPEED);
+            
         }
+
         
         else {
             climberMotor.set(0);
@@ -80,7 +86,7 @@ public class Climber extends SubsystemBase{
     public Command extendClimber(Climber climberSubsystem) {
         
         return Commands.run(
-                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_UP_LIMIT), climberSubsystem)
+                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_UP_SPEED), climberSubsystem)
                         .until(
                             () -> climberMotor.get() < .01
 
@@ -90,7 +96,7 @@ public class Climber extends SubsystemBase{
     public Command reverseClimber(Climber climberSubsystem) {
         
         return Commands.run(
-                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_DOWN_LIMIT), climberSubsystem)
+                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_DOWN_SPEED), climberSubsystem)
                         .until(
                             () -> climberMotor.get() > -.01
 
