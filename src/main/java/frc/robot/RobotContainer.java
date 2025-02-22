@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -92,6 +93,7 @@ public class RobotContainer {
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
       () -> {
+        SmartDashboard.putBoolean("M_inLowGear", m_inLowGear);
         if (m_inLowGear) {
           m_ChassieSubsystem.arcadeDrive(
             m_driverController.getRawAxis(1) * ChassisConstants.kLowGearSpeed,
@@ -106,13 +108,15 @@ public class RobotContainer {
     m_driverController.button(ButtonConstants.kButtonX).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
     m_driverController.button(ButtonConstants.kButtonB).whileTrue(new TurnToAngle(90, m_ChassieSubsystem));
     m_driverController.button(ButtonConstants.kButtonA).whileTrue(new TurnToAngle(15, m_ChassieSubsystem));
-    m_driverController.button(ButtonConstants.kButtonRB).onTrue(new RunCommand(
+    m_driverController.button(ButtonConstants.kButtonRB).onTrue(new InstantCommand(
       () -> {
         m_inLowGear = true;
+        SmartDashboard.putBoolean("M_inLowGear", m_inLowGear);
       }));
-    m_driverController.button(ButtonConstants.kButtonRB).onFalse(new RunCommand(
+    m_driverController.button(ButtonConstants.kButtonRB).onFalse(new InstantCommand(
       () -> {
         m_inLowGear = false;
+        SmartDashboard.putBoolean("M_inLowGear", m_inLowGear);
       }));
   }
 
