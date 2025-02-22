@@ -104,6 +104,18 @@ public final class Constants {
     public static final double SHOOT_MOTOR_SPEED = -0.1;
   }
 
+  public static final class ClimberConstants {
+    public static final int CLIMBER_MOTOR_ID = 8;
+    public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
+    public static final double CLIMBER_MOTOR_VOLTAGE_COMP = 11;
+    public static final double CLIMBER_MOTOR_INITIALIZE_SPEED = -0.60;
+    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
+    public static final double CLIMBER_MOTOR_UP_LIMIT = 1140.0;
+    public static final int CLIMBER_LIMIT_PORT = 0;
+    public static final double CLIMBER_MOTOR_UP_SPEED = 0.75;
+    public static final double CLIMBER_MOTOR_DOWN_SPEED = -0.50;
+  }
+
   public static final class AutosConstants {
     public static final double k_leftDist1 = 58;
     public static final double k_leftAngle1 = -45;
