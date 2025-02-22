@@ -13,10 +13,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
-public class Climber extends SubsystemBase{
+public class Climber extends SubsystemBase {
     private final SparkMax climberMotor;
     private final DigitalInput limitChannel;
     private boolean initialized = false;
+
     public Climber() {
         // Set up the roller motor as a brushless motor
         climberMotor = new SparkMax(ClimberConstants.CLIMBER_MOTOR_ID, MotorType.kBrushless);
@@ -39,13 +40,16 @@ public class Climber extends SubsystemBase{
         climberConfig.voltageCompensation(ClimberConstants.CLIMBER_MOTOR_VOLTAGE_COMP);
         climberConfig.smartCurrentLimit(ClimberConstants.CLIMBER_MOTOR_CURRENT_LIMIT);
         climberConfig.inverted(false);
+        SmartDashboard.putBoolean("climber/limitenabled", softLimitEnabled);
         climberConfig.softLimit
-            .forwardSoftLimitEnabled(softLimitEnabled)
-            .reverseSoftLimitEnabled(softLimitEnabled);
-        if (softLimitEnabled) {
-            climberConfig.softLimit.forwardSoftLimit(ClimberConstants.CLIMBER_MOTOR_UP_LIMIT)
-            .reverseSoftLimit(ClimberConstants.CLIMBER_MOTOR_DOWN_LIMIT);
-        }
+                .forwardSoftLimitEnabled(softLimitEnabled)
+                .reverseSoftLimitEnabled(softLimitEnabled);
+        // if (softLimitEnabled) {
+        SmartDashboard.putNumber("climber/upLimit", ClimberConstants.CLIMBER_MOTOR_UP_LIMIT);
+        SmartDashboard.putNumber("climber/downLimit", ClimberConstants.CLIMBER_MOTOR_DOWN_LIMIT);
+        climberConfig.softLimit.forwardSoftLimit(ClimberConstants.CLIMBER_MOTOR_UP_LIMIT)
+                .reverseSoftLimit(ClimberConstants.CLIMBER_MOTOR_DOWN_LIMIT);
+        // }
         climberMotor.configure(climberConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -58,22 +62,19 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putBoolean("climber/initialized", initialized);
         SmartDashboard.putNumber("climber/speed", climberMotor.get());
         SmartDashboard.putNumber("climber/encoder", climberMotor.getEncoder().getPosition());
-        
+
         if (initialized == true) {
             return;
         }
         if (getLimitSwitch() == false) {
             climberMotor.set(ClimberConstants.CLIMBER_MOTOR_INITIALIZE_SPEED);
-            
-        }
 
-        
-        else {
+        } else {
             climberMotor.set(0);
             climberMotor.getEncoder().setPosition(0);
             setMotorConfig(true);
             initialized = true;
-            
+
         }
     }
 
@@ -84,23 +85,33 @@ public class Climber extends SubsystemBase{
 
     // Command to run the roller with joystick inputs
     public Command extendClimber(Climber climberSubsystem) {
-        
-        return Commands.run(
-                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_UP_SPEED), climberSubsystem)
-                        .until(
-                            () -> climberMotor.get() < .01
 
-                        );
+        return Commands.runEnd(
+                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_UP_SPEED),
+                () -> climberMotor.set(0),
+                climberSubsystem)
+                .until(
+                        () -> climberMotor.get() < .01
 
+                );
     }
-    public Command reverseClimber(Climber climberSubsystem) {
-        
-        return Commands.run(
-                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_DOWN_SPEED), climberSubsystem)
-                        .until(
-                            () -> climberMotor.get() > -.01
 
-                        );
+    public Command stopClimber(Climber climberSubsystem) {
+
+        return Commands.run(
+                () -> climberMotor.set(0), climberSubsystem);
+    }
+
+    public Command reverseClimber(Climber climberSubsystem) {
+
+        return Commands.runEnd(
+                () -> climberMotor.set(ClimberConstants.CLIMBER_MOTOR_DOWN_SPEED),
+                () -> climberMotor.set(0),
+                climberSubsystem)
+                .until(
+                        () -> climberMotor.get() > -.01
+
+                );
 
     }
 }

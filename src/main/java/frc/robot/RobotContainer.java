@@ -94,8 +94,8 @@ public class RobotContainer {
       m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.returnArm(m_algaePicker));
     }
     if(m_climber != null) {
-      m_controllerController.button(ButtonConstants.kButtonY).whileTrue(m_climber.extendClimber(m_climber));
-      m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(m_climber.reverseClimber(m_climber));
+      m_controllerController.button(ButtonConstants.kButtonStart).whileTrue(m_climber.extendClimber(m_climber));
+      m_controllerController.button(ButtonConstants.kButtonBack).whileTrue(m_climber.reverseClimber(m_climber));
     }
   
   
