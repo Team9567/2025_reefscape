@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.subsystems.AlgaePickerSubsystem;
@@ -28,24 +30,22 @@ public class ReachAndGrab extends Command {
     public void initialize() {
         picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
         picker.runintakemotor(AlgaeConstants.INTAKE_MOTOR_SPEED);
-
+        picker.setBrake(true);
     }
 
     @Override
-    public boolean isFinished() {
-        boolean pivotMotordone = false;
-        boolean intakeMotordone = false;
+    public void execute() {
+        SmartDashboard.putBoolean("arm in intake position", picker.arminintakeposition());
         if (picker.arminintakeposition()) {
             picker.runpivotmotor(0);
-            pivotMotordone = true;
+            picker.setBrake(false);
         }
-        if (picker.algaeinrange()) {
-            picker.runintakemotor(0);
-            intakeMotordone = true;
-        }
+    }
 
-        // End when the controller is at the reference.
-        return pivotMotordone && intakeMotordone;
-
+    @Override
+    public void end(boolean interrupted)
+    {
+        picker.runpivotmotor(0);
+        picker.runintakemotor(0);
     }
 }

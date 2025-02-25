@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.ChassisConstants;
 
 import java.lang.module.Configuration;
 import java.util.function.DoubleSupplier;
@@ -14,6 +15,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import au.grapplerobotics.ConfigurationFailedException;
@@ -46,8 +48,13 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         SparkMaxConfig algaeConfig = new SparkMaxConfig();
         algaeConfig.voltageCompensation(AlgaeConstants.ALGAE_MOTOR_VOLTAGE_COMP);
         algaeConfig.smartCurrentLimit(AlgaeConstants.ALGAE_MOTOR_CURRENT_LIMIT);
+        algaeConfig.idleMode(IdleMode.kBrake);
         pivotMotor.configure(algaeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        intakeMotor.configure(algaeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        SparkMaxConfig intakeConfig = new SparkMaxConfig();
+        intakeConfig.voltageCompensation(AlgaeConstants.ALGAE_MOTOR_VOLTAGE_COMP);
+        intakeConfig.smartCurrentLimit(AlgaeConstants.ALGAE_MOTOR_CURRENT_LIMIT);
+        intakeConfig.idleMode(IdleMode.kBrake);
+        intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public int distanceToAlgaeInMm() {
@@ -68,10 +75,30 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         return distanceToAlgaeInMm() > AlgaeConstants.SENSOR_LIMIT || distanceToAlgaeInMm() == -1;
     }
     public boolean arminintakeposition(){
-        return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION;
+        return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION || pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
     }
     public boolean arminhomeposition(){
-        return pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
+        return pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION && pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_HOME_POSITION + 0.5;
+    }
+    public double getPivotAngle()
+    {
+        return pivotEncoder.getPosition();
+    }
+    public void setBrake(boolean enabled)
+    {
+        SparkMaxConfig config = new SparkMaxConfig();
+        if (enabled)
+        {
+            config
+                .idleMode(IdleMode.kBrake);
+        }
+
+        else
+        {
+            config
+                .idleMode(IdleMode.kCoast);
+        }
+        pivotMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     public Command reachForAlgae(
@@ -105,7 +132,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             () -> pivotMotor.set(0),
             algaeSubsystem)
             .onlyWhile(
-                () -> (arminhomeposition())
+                () -> (!arminhomeposition())
             );
     }
 
@@ -124,5 +151,6 @@ public class AlgaePickerSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("armAngle", pivotEncoder.getPosition());
+    SmartDashboard.putNumber("armSpeed", pivotMotor.get());
   }
 }

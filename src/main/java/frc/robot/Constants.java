@@ -95,12 +95,12 @@ public final class Constants {
     public static final int ALGAE_MOTOR_CURRENT_LIMIT = 60;
     public static final double ALGAE_MOTOR_VOLTAGE_COMP = 10;
     public static final double ALGAE_EJECT_VALUE = 0.44;
-    public static final double ALGAE_ARM_REACH_SPEED = 0.1;
-    public static final double ALGAE_ARM_HOME_POSITION = 0.0;
-    public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION + 0.19; // ~70degrees/360
-    public static final double INTAKE_MOTOR_SPEED = 0.1;
+    public static final double ALGAE_ARM_REACH_SPEED = -0.2;
+    public static final double ALGAE_ARM_HOME_POSITION = 0.135;
+    public static final double ALGAE_ARM_INTAKE_POSITION = 0.001;
+    public static final double INTAKE_MOTOR_SPEED = 0.45;
     public static final int SENSOR_LIMIT = 750;
-    public static final double ALGAE_ARM_RETURN_SPEED = -0.1;
+    public static final double ALGAE_ARM_RETURN_SPEED = 0.4;
     public static final double SHOOT_MOTOR_SPEED = -0.1;
   }
 
