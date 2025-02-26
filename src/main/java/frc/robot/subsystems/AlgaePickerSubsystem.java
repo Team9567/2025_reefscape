@@ -1,36 +1,33 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
+import au.grapplerobotics.LaserCan;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeConstants;
-import frc.robot.Constants.ChassisConstants;
-
-import java.lang.module.Configuration;
-import java.util.function.DoubleSupplier;
-
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
-
-import au.grapplerobotics.ConfigurationFailedException;
-import au.grapplerobotics.LaserCan;
 
 public class AlgaePickerSubsystem extends SubsystemBase {
     final SparkMax pivotMotor;
-    final SparkMax intakeMotor;
+    final SparkFlex intakeMotor;
     final AbsoluteEncoder pivotEncoder;
     LaserCan algaeRanger;
 
     public AlgaePickerSubsystem() {
         // Set up the roller motor as a brushless motor
         pivotMotor = new SparkMax(AlgaeConstants.PIVOT_MOTOR_ID, MotorType.kBrushless);
-        intakeMotor = new SparkMax(AlgaeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+        intakeMotor = new SparkFlex(AlgaeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
         pivotEncoder = pivotMotor.getAbsoluteEncoder();
         /*
         algaeRanger = new LaserCan(AlgaeConstants.ALGAE_RANGER_ID);
@@ -50,7 +47,10 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         algaeConfig.smartCurrentLimit(AlgaeConstants.ALGAE_MOTOR_CURRENT_LIMIT);
         algaeConfig.idleMode(IdleMode.kBrake);
         pivotMotor.configure(algaeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        SparkMaxConfig intakeConfig = new SparkMaxConfig();
+
+        // According to Dan, a timing delay between config requests has been observed to correct heisenbugs
+        Timer.delay(0.1);
+        SparkFlexConfig intakeConfig = new SparkFlexConfig();
         intakeConfig.voltageCompensation(AlgaeConstants.ALGAE_MOTOR_VOLTAGE_COMP);
         intakeConfig.smartCurrentLimit(AlgaeConstants.ALGAE_MOTOR_CURRENT_LIMIT);
         intakeConfig.idleMode(IdleMode.kBrake);
