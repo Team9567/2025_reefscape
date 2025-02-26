@@ -7,9 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.studica.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -20,47 +20,47 @@ import frc.robot.Constants.ChassisConstants;
 public class ChassieSubSystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   DifferentialDrive m_drivetrain;
-  SparkMax m_leftFront;
-  SparkMax m_rightFront;
-  SparkMax m_leftRear;
-  SparkMax m_rightRear;
+  SparkFlex m_leftFront;
+  SparkFlex m_rightFront;
+  SparkFlex m_leftRear;
+  SparkFlex m_rightRear;
   private AHRS m_gyro;
 
   public ChassieSubSystem() {
     m_gyro = new AHRS(ChassisConstants.kGyroPort);
-    m_leftFront = new SparkMax(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
-    m_rightFront = new SparkMax(ChassisConstants.kRightFrontCanId, MotorType.kBrushless);
-    m_leftRear = new SparkMax(ChassisConstants.kLeftRearCanId, MotorType.kBrushless);
-    m_rightRear = new SparkMax(ChassisConstants.kRightRearCanId, MotorType.kBrushless);
-    for (SparkMax motor : new SparkMax[] {
+    m_leftFront = new SparkFlex(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
+    m_rightFront = new SparkFlex(ChassisConstants.kRightFrontCanId, MotorType.kBrushless);
+    m_leftRear = new SparkFlex(ChassisConstants.kLeftRearCanId, MotorType.kBrushless);
+    m_rightRear = new SparkFlex(ChassisConstants.kRightRearCanId, MotorType.kBrushless);
+    for (SparkFlex motor : new SparkFlex[] {
         m_leftFront, m_rightFront, m_leftRear, m_rightRear }) {
-      SparkMaxConfig config = new SparkMaxConfig();
+      SparkFlexConfig config = new SparkFlexConfig();
       config
           .idleMode(IdleMode.kBrake)
-          .smartCurrentLimit(50);
+          .smartCurrentLimit(80);
       config.softLimit
           .forwardSoftLimitEnabled(false)
           .reverseSoftLimitEnabled(false);
-      config.closedLoopRampRate(ChassisConstants.kMotorRampTime);
+      config.openLoopRampRate(ChassisConstants.kMotorRampTime);
       config.encoder.positionConversionFactor(ChassisConstants.kPositionConversionFactor);
       motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     }
-    SparkMaxConfig leftrearConfig = new SparkMaxConfig();
+    SparkFlexConfig leftrearConfig = new SparkFlexConfig();
     leftrearConfig.follow(m_leftFront);
     leftrearConfig.inverted(false);
     m_leftRear.configure(leftrearConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-    SparkMaxConfig RightrearConfig = new SparkMaxConfig();
+    SparkFlexConfig RightrearConfig = new SparkFlexConfig();
     RightrearConfig.follow(m_rightFront);
     RightrearConfig.inverted(false);
     m_rightRear.configure(RightrearConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
-    SparkMaxConfig leftfrontConfig = new SparkMaxConfig();
+    SparkFlexConfig leftfrontConfig = new SparkFlexConfig();
 
     leftfrontConfig.inverted(false);
 
     m_leftFront.configure(leftfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-    SparkMaxConfig RightfrontConfig = new SparkMaxConfig();
+    SparkFlexConfig RightfrontConfig = new SparkFlexConfig();
     RightfrontConfig.inverted(true);
 
     m_rightFront.configure(RightfrontConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
@@ -89,6 +89,9 @@ public class ChassieSubSystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("drivetrain/encoderticks", getAverageTicks());
     SmartDashboard.putNumber("angle", m_gyro.getAngle());
+    SmartDashboard.putNumber("power", m_leftFront.get());
+    SmartDashboard.putNumber("current", m_leftFront.getOutputCurrent());
+    SmartDashboard.putNumber("voltage", m_leftFront.getBusVoltage());
   }
 
   @Override
@@ -101,14 +104,14 @@ public class ChassieSubSystem extends SubsystemBase {
   }
 
   public void disableramp() {
-    SparkMaxConfig config = new SparkMaxConfig();
+    SparkFlexConfig config = new SparkFlexConfig();
     config.closedLoopRampRate(0);
     m_leftFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     m_rightFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   public void enableramp() {
-    SparkMaxConfig config = new SparkMaxConfig();
+    SparkFlexConfig config = new SparkFlexConfig();
     config.closedLoopRampRate(ChassisConstants.kMotorRampTime);
     m_leftFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     m_rightFront.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
