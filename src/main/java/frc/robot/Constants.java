@@ -56,7 +56,7 @@ public final class Constants {
     public static final double kWheelDiameterInches = 6.17;
     public static final double kGearRatio = 8.46;
     public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
-    public static final double kMotorRampTime = 2.0;
+    public static final double kMotorRampTime = 0.5;
     public static final double kDriveClamp = 0.5;
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
@@ -112,7 +112,7 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
     public static final double CLIMBER_MOTOR_UP_LIMIT = 1140.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
-    public static final double CLIMBER_MOTOR_UP_SPEED = 0.75;
+    public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
     public static final double CLIMBER_MOTOR_DOWN_SPEED = -0.50;
   }
 
@@ -130,5 +130,6 @@ public final class Constants {
 
   public static final class RobotConstants {
     public static final boolean k_IsCompBot = true;
+
   }
 }
