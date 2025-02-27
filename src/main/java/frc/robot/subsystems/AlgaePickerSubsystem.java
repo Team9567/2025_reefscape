@@ -113,22 +113,20 @@ public class AlgaePickerSubsystem extends SubsystemBase {
 
     }
 
-    public Command getAlgae(
+    public Command holdAlgae(
             AlgaePickerSubsystem algaeSubsystem) {
-        return Commands.startEnd(
-            () -> intakeMotor.set(AlgaeConstants.INTAKE_MOTOR_SPEED),
-            () -> intakeMotor.set(0),
-            algaeSubsystem)
-            .onlyWhile(
-                () -> (algaeinrange())
-            );
-
+        return Commands.run(
+            () -> intakeMotor.set(AlgaeConstants.HOLD_MOTOR_SPEED),
+            algaeSubsystem);
     }
 
     public Command returnArm(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
-            () -> pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED),
+            () -> {
+                pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED);
+                intakeMotor.set(AlgaeConstants.HOLD_MOTOR_SPEED);
+            },
             () -> pivotMotor.set(0),
             algaeSubsystem)
             .onlyWhile(
@@ -141,10 +139,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         return Commands.startEnd(
             () -> intakeMotor.set(AlgaeConstants.SHOOT_MOTOR_SPEED),
             () -> intakeMotor.set(0),
-            algaeSubsystem)
-            .onlyWhile(
-                () -> (distanceToAlgaeInMm() > AlgaeConstants.SENSOR_LIMIT || distanceToAlgaeInMm() == -1)
-            );
+            algaeSubsystem);
     }
 
 @Override
