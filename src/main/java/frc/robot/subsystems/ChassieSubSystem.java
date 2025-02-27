@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.studica.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,10 @@ public class ChassieSubSystem extends SubsystemBase {
 
   public ChassieSubSystem() {
     m_gyro = new AHRS(ChassisConstants.kGyroPort);
+    m_gyro.reset();
+    Timer.delay(0.1);
+
+
     m_leftFront = new SparkFlex(ChassisConstants.kLeftFrontCanId, MotorType.kBrushless);
     m_rightFront = new SparkFlex(ChassisConstants.kRightFrontCanId, MotorType.kBrushless);
     m_leftRear = new SparkFlex(ChassisConstants.kLeftRearCanId, MotorType.kBrushless);

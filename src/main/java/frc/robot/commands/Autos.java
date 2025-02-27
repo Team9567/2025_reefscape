@@ -32,6 +32,7 @@ public final class Autos {
   public static Command simpleAutoMiddle(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
     if (coralSubsystem != null) {
       return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem)
+      .withTimeout(4.0)
         .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
     }
     else {

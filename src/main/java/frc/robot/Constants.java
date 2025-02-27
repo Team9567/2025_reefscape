@@ -43,12 +43,12 @@ public final class Constants {
     public static final int kRightFrontCanId = 4;
     public static final int kLeftRearCanId = 1;
     public static final int kRightRearCanId = 3;
-    public static final double kDriveP = 1;
+    public static final double kDriveP = 0.35;
     public static final double kDriveI = 0;
-    public static final double kDriveD = 0.12;
+    public static final double kDriveD = 0.02;
     public static final double kTurnP = 0.06;
     public static final double kTurnI = 0.0;
-    public static final double kTurnD  = 0.004;
+    public static final double kTurnD  = 0.0;
     public static final double kDriveToleranceInches = 1.0;
     public static final double kDriveToleranceInchesPerS = 0;
     public static final double kTurnToleranceDeg = 1.5;
@@ -120,14 +120,14 @@ public final class Constants {
   }
 
   public static final class AutosConstants {
-    public static final double k_leftDist1 = 58;
+    public static final double k_leftDist1 = -58;
     public static final double k_leftAngle1 = -45;
-    public static final double k_leftDist2 = 89;
-    public static final double k_rightDist1 = 56;
+    public static final double k_leftDist2 = -89;
+    public static final double k_rightDist1 = -56;
     public static final double k_rightAngle1 = 45;
-    public static final double k_rightDist2 = 88;
-    public static final double k_middleDist1 = 88;
-    public static final double k_rollerForwardSpeed = 0.0;
+    public static final double k_rightDist2 = -88;
+    public static final double k_middleDist1 = -88;
+    public static final double k_rollerForwardSpeed = 0.30;
     public static final double k_rollerReverseSpeed = 0.0;
   }
 
