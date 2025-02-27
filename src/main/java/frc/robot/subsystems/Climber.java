@@ -62,7 +62,7 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putBoolean("climber/initialized", initialized);
         SmartDashboard.putNumber("climber/speed", climberMotor.get());
         SmartDashboard.putNumber("climber/encoder", climberMotor.getEncoder().getPosition());
-
+        SmartDashboard.putBoolean("climber/safetoclimb", climberMotor.getEncoder().getPosition() > ClimberConstants.CLIMBER_MOTOR_SAFELIMIT);
         if (initialized == true) {
             return;
         }
