@@ -61,7 +61,7 @@ public final class Constants {
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
     public static final NavXComType kGyroPort = NavXComType.kMXP_SPI;
-    public static final double kLowGearSpeed = 0.25;
+    public static final double kLowGearSpeed = 0.35;
    
   }
   public static class MathUtils {
@@ -111,10 +111,11 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_VOLTAGE_COMP = 11;
     public static final double CLIMBER_MOTOR_INITIALIZE_SPEED = -0.60;
     public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
-    public static final double CLIMBER_MOTOR_UP_LIMIT = 1140.0;
+    public static final double CLIMBER_MOTOR_UP_LIMIT = 381.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
     public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
     public static final double CLIMBER_MOTOR_DOWN_SPEED = -0.50;
+    public static final double CLIMBER_MOTOR_SAFELIMIT = 250.0;
   }
 
   public static final class AutosConstants {
@@ -131,6 +132,5 @@ public final class Constants {
 
   public static final class RobotConstants {
     public static final boolean k_IsCompBot = true;
-
   }
 }
