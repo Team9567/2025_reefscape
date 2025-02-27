@@ -36,9 +36,13 @@ public class ReachAndGrab extends Command {
     @Override
     public void execute() {
         SmartDashboard.putBoolean("arm in intake position", picker.arminintakeposition());
+        picker.runintakemotor(AlgaeConstants.INTAKE_MOTOR_SPEED);
         if (picker.arminintakeposition()) {
             picker.runpivotmotor(0);
             picker.setBrake(false);
+        }else{
+            picker.setBrake(true);
+            picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
         }
     }
 
