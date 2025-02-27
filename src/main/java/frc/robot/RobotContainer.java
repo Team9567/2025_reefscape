@@ -66,6 +66,7 @@ public class RobotContainer {
     autochooser.addOption("left", Autos.simpleAutoLeft(m_ChassieSubsystem, m_coralRoller));
     autochooser.addOption("middle", Autos.simpleAutoMiddle(m_ChassieSubsystem, m_coralRoller));
     autochooser.addOption("right", Autos.simpleAutoRight(m_ChassieSubsystem, m_coralRoller));
+    autochooser.addOption("long", Autos.simpleAutoSide(m_ChassieSubsystem, m_coralRoller));
     SmartDashboard.putData("AutoPosition", autochooser);
 
   }

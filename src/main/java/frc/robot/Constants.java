@@ -129,6 +129,7 @@ public final class Constants {
     public static final double k_middleDist1 = -88;
     public static final double k_rollerForwardSpeed = 0.30;
     public static final double k_rollerReverseSpeed = 0.0;
+    public static final double k_sideDist1 = -144.0;
   }
 
   public static final class RobotConstants {

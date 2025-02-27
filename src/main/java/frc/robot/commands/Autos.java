@@ -40,6 +40,17 @@ public final class Autos {
     }
   }
 
+  public static Command simpleAutoSide(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
+    if (coralSubsystem != null) {
+      return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem)
+      .withTimeout(4.0)
+        .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+    }
+    else {
+      return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);
+    }
+  }
+
   public static Command simpleAutoRight(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
     if (coralSubsystem != null) {
       return new DriveDistanceCommand(AutosConstants.k_rightDist1, subsystem)
@@ -51,6 +62,16 @@ public final class Autos {
       return new DriveDistanceCommand(AutosConstants.k_rightDist1, subsystem)
         .andThen(new TurnToAngle(AutosConstants.k_rightAngle1, subsystem))
         .andThen(new DriveDistanceCommand(AutosConstants.k_rightDist2, subsystem));
+    }
+  }
+
+  public static Command simpleAuto(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
+    if (coralSubsystem != null) {
+      return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem)
+      .withTimeout(4.0);
+    }
+    else {
+      return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem);
     }
   }
 
