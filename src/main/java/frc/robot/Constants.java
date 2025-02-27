@@ -56,7 +56,7 @@ public final class Constants {
     public static final double kWheelDiameterInches = 6.17;
     public static final double kGearRatio = 8.46;
     public static final double kPositionConversionFactor = (kWheelDiameterInches * Math.PI) / kGearRatio;
-    public static final double kMotorRampTime = 2.0;
+    public static final double kMotorRampTime = 0.1;
     public static final double kDriveClamp = 0.5;
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
@@ -98,10 +98,11 @@ public final class Constants {
     public static final double ALGAE_ARM_REACH_SPEED = -0.2;
     public static final double ALGAE_ARM_HOME_POSITION = 0.135;
     public static final double ALGAE_ARM_INTAKE_POSITION = 0.001;
-    public static final double INTAKE_MOTOR_SPEED = 0.45;
+    public static final double INTAKE_MOTOR_SPEED = 0.75;
+    public static final double HOLD_MOTOR_SPEED = 0.05;
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.4;
-    public static final double SHOOT_MOTOR_SPEED = -0.1;
+    public static final double SHOOT_MOTOR_SPEED = -0.9;
   }
 
   public static final class ClimberConstants {
@@ -112,7 +113,7 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
     public static final double CLIMBER_MOTOR_UP_LIMIT = 1140.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
-    public static final double CLIMBER_MOTOR_UP_SPEED = 0.75;
+    public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
     public static final double CLIMBER_MOTOR_DOWN_SPEED = -0.50;
   }
 
@@ -130,5 +131,6 @@ public final class Constants {
 
   public static final class RobotConstants {
     public static final boolean k_IsCompBot = true;
+
   }
 }
