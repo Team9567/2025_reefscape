@@ -30,15 +30,15 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         intakeMotor = new SparkFlex(AlgaeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
         pivotEncoder = pivotMotor.getAbsoluteEncoder();
         /*
-        algaeRanger = new LaserCan(AlgaeConstants.ALGAE_RANGER_ID);
-        try {
-            algaeRanger.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
-        }
-        
-        catch (ConfigurationFailedException e) {
-            System.out.println("LaserCan error " + e);
-        }
-        */
+         * algaeRanger = new LaserCan(AlgaeConstants.ALGAE_RANGER_ID);
+         * try {
+         * algaeRanger.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
+         * }
+         * 
+         * catch (ConfigurationFailedException e) {
+         * System.out.println("LaserCan error " + e);
+         * }
+         */
         pivotMotor.setCANTimeout(250);
         intakeMotor.setCANTimeout(250);
 
@@ -48,7 +48,8 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         algaeConfig.idleMode(IdleMode.kBrake);
         pivotMotor.configure(algaeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        // According to Dan, a timing delay between config requests has been observed to correct heisenbugs
+        // According to Dan, a timing delay between config requests has been observed to
+        // correct heisenbugs
         Timer.delay(0.1);
         SparkFlexConfig intakeConfig = new SparkFlexConfig();
         intakeConfig.voltageCompensation(AlgaeConstants.ALGAE_MOTOR_VOLTAGE_COMP);
@@ -61,42 +62,46 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         LaserCan.Measurement measurement = algaeRanger.getMeasurement();
         if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             return measurement.distance_mm;
-         }
-         return -1;
+        }
+        return -1;
     }
 
-    public void runpivotmotor(double speed){
+    public void runpivotmotor(double speed) {
         pivotMotor.set(speed);
     }
-    public void runintakemotor(double speed){
+
+    public void runintakemotor(double speed) {
         intakeMotor.set(speed);
     }
-    public boolean algaeinrange(){
+
+    public boolean algaeinrange() {
         return distanceToAlgaeInMm() > AlgaeConstants.SENSOR_LIMIT || distanceToAlgaeInMm() == -1;
     }
-    public boolean arminintakeposition(){
-        return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION || pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
+
+    public boolean arminintakeposition() {
+        return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION
+                || pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
     }
-    public boolean arminhomeposition(){
-        return pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION && pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_HOME_POSITION + 0.5;
+
+    public boolean arminhomeposition() {
+        return pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION
+                && pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_HOME_POSITION + 0.5;
     }
-    public double getPivotAngle()
-    {
+
+    public double getPivotAngle() {
         return pivotEncoder.getPosition();
     }
-    public void setBrake(boolean enabled)
-    {
+
+    public void setBrake(boolean enabled) {
         SparkMaxConfig config = new SparkMaxConfig();
-        if (enabled)
-        {
+        if (enabled) {
             config
-                .idleMode(IdleMode.kBrake);
+                    .idleMode(IdleMode.kBrake);
         }
 
-        else
-        {
+        else {
             config
-                .idleMode(IdleMode.kCoast);
+                    .idleMode(IdleMode.kCoast);
         }
         pivotMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
@@ -104,48 +109,50 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     public Command reachForAlgae(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
-            () -> pivotMotor.set(AlgaeConstants.ALGAE_ARM_REACH_SPEED),
-            () -> pivotMotor.set(0),
-            algaeSubsystem)
-            .onlyWhile(
-                () -> (arminintakeposition())
-            );
+                () -> pivotMotor.set(AlgaeConstants.ALGAE_ARM_REACH_SPEED),
+                () -> pivotMotor.set(0),
+                algaeSubsystem)
+                .onlyWhile(
+                        () -> (arminintakeposition()));
 
     }
 
     public Command holdAlgae(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.run(
-            () -> intakeMotor.set(AlgaeConstants.HOLD_MOTOR_SPEED),
-            algaeSubsystem);
+                () -> {
+                    intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
+                    pivotMotor.set(AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED);
+                },
+                algaeSubsystem);
     }
 
     public Command returnArm(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
-            () -> {
-                pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED);
-                intakeMotor.set(AlgaeConstants.HOLD_MOTOR_SPEED);
-            },
-            () -> pivotMotor.set(0),
-            algaeSubsystem)
-            .onlyWhile(
-                () -> (!arminhomeposition())
-            );
+                () -> {
+                    pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED);
+                    intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
+                },
+                () -> pivotMotor.set(0),
+                algaeSubsystem)
+                .onlyWhile(
+                        () -> (!arminhomeposition()));
     }
 
     public Command scoreAlgae(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
-            () -> intakeMotor.set(AlgaeConstants.SHOOT_MOTOR_SPEED),
-            () -> intakeMotor.set(0),
-            algaeSubsystem);
+                () -> intakeMotor.set(AlgaeConstants.SHOOT_MOTOR_SPEED),
+                () -> intakeMotor.set(0),
+                algaeSubsystem);
     }
 
-@Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putNumber("armAngle", pivotEncoder.getPosition());
-    SmartDashboard.putNumber("armSpeed", pivotMotor.get());
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        SmartDashboard.putNumber("armAngle", pivotEncoder.getPosition());
+        SmartDashboard.putNumber("armSpeed", pivotMotor.get());
+        SmartDashboard.putNumber("intake speed", intakeMotor.get());
+    }
 }
