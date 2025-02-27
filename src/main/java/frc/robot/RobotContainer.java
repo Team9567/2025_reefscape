@@ -91,8 +91,9 @@ public class RobotContainer {
     }
 
     if (m_algaePicker != null) {
-      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker));
-      m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.returnArm(m_algaePicker));
+      m_algaePicker.setDefaultCommand(m_algaePicker.holdAlgae(m_algaePicker));
+      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker)).onFalse(m_algaePicker.returnArm(m_algaePicker));
+      m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.scoreAlgae(m_algaePicker));
     }
     if(m_climber != null) {
       m_controllerController.button(ButtonConstants.kButtonStart).whileTrue(m_climber.extendClimber(m_climber));
