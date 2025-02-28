@@ -80,7 +80,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
 
     public boolean arminintakeposition() {
         return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION
-                || pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
+                || pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5;
     }
 
     public boolean arminhomeposition() {
