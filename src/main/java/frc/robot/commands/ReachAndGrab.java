@@ -30,7 +30,7 @@ public class ReachAndGrab extends Command {
     public void initialize() {
         picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
         picker.runintakemotor(AlgaeConstants.INTAKE_MOTOR_SPEED);
-        picker.setBrake(true);
+        picker.setBrake(true, false);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class ReachAndGrab extends Command {
         picker.runintakemotor(AlgaeConstants.INTAKE_MOTOR_SPEED);
         if (picker.arminintakeposition()) {
             picker.runpivotmotor(0);
-            picker.setBrake(false);
+            picker.setBrake(false, false);
         }else{
-            picker.setBrake(true);
+            picker.setBrake(true, false);
             picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
         }
     }

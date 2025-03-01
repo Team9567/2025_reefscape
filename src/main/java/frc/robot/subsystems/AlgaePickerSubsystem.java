@@ -107,7 +107,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         return pivotEncoder.getPosition();
     }
 
-    public void setBrake(boolean enabled) {
+    public void setBrake(boolean enabled, boolean sync) {
         SparkMaxConfig config = new SparkMaxConfig();
         if (enabled) {
             config
@@ -118,7 +118,15 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             config
                     .idleMode(IdleMode.kCoast);
         }
-        pivotMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+
+        if (sync)
+        {
+            pivotMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        }
+        else
+        {
+            pivotMotor.configureAsync(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+        }
     }
 
     public Command reachForAlgae(
@@ -138,6 +146,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
                 () -> {
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
                     pivotMotor.set(AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED);
+                    setBrake(true, false);
                 },
                 algaeSubsystem);
     }
@@ -148,6 +157,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
                 () -> {
                     pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED);
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
+                    setBrake(true, false);
                 },
                 () -> pivotMotor.set(0),
                 algaeSubsystem)

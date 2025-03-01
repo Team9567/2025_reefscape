@@ -61,7 +61,7 @@ public class RobotContainer {
       m_algaePicker = new AlgaePickerSubsystem();
       m_climber = new Climber();
       // Creates UsbCamera
-      //CameraServer.startAutomaticCapture();
+      CameraServer.startAutomaticCapture();
     }
     // Configure the trigger bindings
     configureBindings();
