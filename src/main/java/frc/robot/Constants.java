@@ -98,11 +98,11 @@ public final class Constants {
     public static final double ALGAE_ARM_REACH_SPEED = -0.2;
     public static final double ALGAE_ARM_HOME_POSITION = 0.135;
     public static final double ALGAE_ARM_INTAKE_POSITION = 0.001;
-    public static final double INTAKE_MOTOR_SPEED = 0.75;
+    public static final double INTAKE_MOTOR_SPEED = 1.00;
     public static final double INTAKE_HOLD_MOTOR_SPEED = 0.10;
     public static final double PIVOT_HOLD_MOTOR_SPEED = 0.05;
     public static final int SENSOR_LIMIT = 750;
-    public static final double ALGAE_ARM_RETURN_SPEED = 0.4;
+    public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
     public static final double SHOOT_MOTOR_SPEED = -0.9;
   }
 
@@ -127,7 +127,7 @@ public final class Constants {
     public static final double k_rightAngle1 = 45;
     public static final double k_rightDist2 = -88;
     public static final double k_middleDist1 = -88;
-    public static final double k_rollerForwardSpeed = 0.30;
+    public static final double k_rollerForwardSpeed = 0.20;
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
   }
