@@ -79,13 +79,28 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     }
 
     public boolean arminintakeposition() {
-        return pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION
-                || pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5;
+        double pivotposition = pivotEncoder.getPosition();
+        boolean pivotintakepart1 = pivotposition < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION;
+
+        boolean pivotintakepart2 =  pivotposition > AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5;
+        SmartDashboard.putNumber("pivotposition",pivotposition );
+        SmartDashboard.putNumber("pivotintakelimit2", AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5);
+        SmartDashboard.putBoolean("pivotintakepart1", pivotintakepart1);
+        SmartDashboard.putBoolean("pivotintakepart2", pivotintakepart2);
+        SmartDashboard.putBoolean("pivotinintakeposition", pivotintakepart1 || pivotintakepart2);
+
+        return pivotintakepart1 || pivotintakepart2;
     }
 
     public boolean arminhomeposition() {
-        return pivotEncoder.getPosition() > AlgaeConstants.ALGAE_ARM_HOME_POSITION
-                && pivotEncoder.getPosition() < AlgaeConstants.ALGAE_ARM_HOME_POSITION + 0.5;
+        double pivotposition = pivotEncoder.getPosition();
+        boolean pivothomepart1 = pivotposition > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
+        boolean pivothomepart2 = pivotposition < AlgaeConstants.ALGAE_ARM_HOME_POSITION + 0.5;
+        SmartDashboard.putBoolean("pivothomepart1", pivothomepart1);
+        SmartDashboard.putBoolean("pivothomepart2", pivothomepart2);
+        SmartDashboard.putBoolean("pivotinhomeposition",pivothomepart1 && pivothomepart2);        
+        
+        return pivothomepart1 && pivothomepart2;
     }
 
     public double getPivotAngle() {
@@ -154,5 +169,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("armAngle", pivotEncoder.getPosition());
         SmartDashboard.putNumber("armSpeed", pivotMotor.get());
         SmartDashboard.putNumber("intake speed", intakeMotor.get());
+        arminhomeposition();
+        arminintakeposition();
     }
 }
