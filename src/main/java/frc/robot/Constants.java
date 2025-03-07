@@ -112,11 +112,11 @@ public final class Constants {
     public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
     public static final double CLIMBER_MOTOR_VOLTAGE_COMP = 11;
     public static final double CLIMBER_MOTOR_INITIALIZE_SPEED = -0.60;
-    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 0.0;
+    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 163.0;
     public static final double CLIMBER_MOTOR_UP_LIMIT = 430.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
     public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
-    public static final double CLIMBER_MOTOR_DOWN_SPEED = -0.50;
+    public static final double CLIMBER_MOTOR_DOWN_SPEED = -1.00;
     public static final double CLIMBER_MOTOR_SAFELIMIT = 163.0;
   }
 
