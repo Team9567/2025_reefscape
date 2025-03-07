@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.Constants.AutosConstants;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.subsystems.AlgaePickerSubsystem;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.CoralRoller;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +46,44 @@ public final class Autos {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem)
       .withTimeout(4.0)
         .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+    }
+    else {
+      return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);
+    }
+  }
+
+  public static Command sidePlusCoral(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
+    if (coralSubsystem != null) {
+      return simpleAutoSide(subsystem, coralSubsystem)
+        .andThen(new DriveDistanceCommand(AutosConstants.k_fromReefDist1, subsystem))
+        .andThen(new TurnToAngle(AutosConstants.k_fromReefAngle1, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toSourceDist1, subsystem))
+        .andThen(new TurnToAngle(AutosConstants.k_toSourceAngle1, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toSourceDist2, subsystem))
+        // TO-DO - wait for coral
+        .andThen(new DriveDistanceCommand(AutosConstants.k_fromSourceDist1, subsystem))
+        .andThen(new TurnToAngle(AutosConstants.k_fromSourceAngle1, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toReefDist1, subsystem))
+        .andThen(new TurnToAngle(AutosConstants.k_toReefAngle1, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toReefDist2, subsystem))
+        .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+    }
+    else {
+      return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);
+    }
+  }
+
+  public static Command sidePlusAlgae(ChassieSubSystem subsystem, CoralRoller coralSubsystem, AlgaePickerSubsystem algaeSubsystem) {
+    if (coralSubsystem != null && algaeSubsystem != null) {
+      return simpleAutoSide(subsystem, coralSubsystem)
+        .andThen(new DriveDistanceCommand(AutosConstants.k_fromReefDist2, subsystem))
+        .andThen(new TurnToAngle(AutosConstants.k_fromReefAngle2, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toAlgaeDist1, subsystem)) // TO-DO, and start grab
+        .andThen(new TurnToAngle(AutosConstants.k_toProcessorAngle1, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toProcessorDist1, subsystem))
+        .andThen(new TurnToAngle(AutosConstants.k_toProcessorAngle2, subsystem))
+        .andThen(new DriveDistanceCommand(AutosConstants.k_toProcessorDist2, subsystem))
+        .andThen(algaeSubsystem.scoreAlgae(algaeSubsystem));
     }
     else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);

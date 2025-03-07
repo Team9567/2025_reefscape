@@ -144,6 +144,23 @@ public final class Constants {
     public static final double k_rollerForwardSpeed = 0.20;
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
+    public static final double k_fromReefDist1 = 0.0;
+    public static final double k_fromReefAngle1 = 0.0;
+    public static final double k_toSourceDist1 = 0.0;
+    public static final double k_toSourceAngle1 = 0.0;
+    public static final double k_toSourceDist2 = 0.0;
+    public static final double k_fromSourceDist1 = 0.0;
+    public static final double k_fromSourceAngle1 = 0.0;
+    public static final double k_toReefDist1 = 0.0;
+    public static final double k_toReefAngle1 = 0.0;
+    public static final double k_toReefDist2 = 0.0;
+    public static final double k_fromReefDist2 = 0.0;
+    public static final double k_fromReefAngle2 = 0.0;
+    public static final double k_toAlgaeDist1 = 0.0;
+    public static final double k_toProcessorAngle1 = 0.0;
+    public static final double k_toProcessorDist1 = 0.0;
+    public static final double k_toProcessorAngle2 = 0.0;
+    public static final double k_toProcessorDist2 = 0.0;
   }
 
   public static final class RobotConstants {
