@@ -84,7 +84,7 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE2 = 0.0;
     public static final double ROLLER_SLOW_EJECT_VALUE = 0.20;
     public static final double ROLLER_REVERSE_VALUE = 0.0;
-    public static final double ROLLER_REVERSE_VALUE2 = 0.3;
+    public static final double ROLLER_REVERSE_VALUE2 = 0.25;
     public static final double ROLLER_GEAR_RATIO = 2.0;
   }
 
@@ -95,12 +95,13 @@ public final class Constants {
     public static final int ALGAE_MOTOR_CURRENT_LIMIT = 60;
     public static final double ALGAE_MOTOR_VOLTAGE_COMP = 10;
     public static final double ALGAE_EJECT_VALUE = 0.44;
-    public static final double ALGAE_ARM_REACH_SPEED = -0.2;
+    public static final double ALGAE_ARM_REACH_SPEED = -0.4;
+    public static final double ALGAE_ARM_REACH_SPEED2 = -0.2;
     public static final double ALGAE_ARM_HOME_POSITION = 0.135;
     public static final double ALGAE_ARM_INTAKE_POSITION = 0.001;
-    public static final double INTAKE_MOTOR_SPEED = 1.00;
+    public static final double INTAKE_MOTOR_SPEED = 0.90;
     public static final double INTAKE_HOLD_MOTOR_SPEED = 0.10;
-    public static final double PIVOT_HOLD_MOTOR_SPEED = 0.05;
+    public static final double PIVOT_HOLD_MOTOR_SPEED = 0.10;
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
     public static final double SHOOT_MOTOR_SPEED = -0.9;

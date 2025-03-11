@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import au.grapplerobotics.CanBridge;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +21,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.CoralJostlerCommand;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.ReachAndGrab;
 import frc.robot.commands.TurnToAngle;
@@ -27,6 +29,7 @@ import frc.robot.subsystems.AlgaePickerSubsystem;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralRoller;
+import au.grapplerobotics.CanBridge;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,6 +65,8 @@ public class RobotContainer {
       m_climber = new Climber();
       // Creates UsbCamera
       CameraServer.startAutomaticCapture();
+      // enable lasercan config bridge
+      //CanBridge.runTCP();
     }
     // Configure the trigger bindings
     configureBindings();
@@ -91,11 +96,13 @@ public class RobotContainer {
       m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
       m_controllerController.button(ButtonConstants.kButtonRB).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_REVERSE_VALUE, () -> RollerConstants.ROLLER_REVERSE_VALUE2));
       m_controllerController.button(ButtonConstants.kButtonY).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_SLOW_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
+      m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(new CoralJostlerCommand(m_coralRoller));
     }
+
 
     if (m_algaePicker != null) {
       m_algaePicker.setDefaultCommand(m_algaePicker.holdAlgae(m_algaePicker));
-      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker)).onFalse(m_algaePicker.returnArm(m_algaePicker));
+      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker));
       m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.scoreAlgae(m_algaePicker));
     }
     if(m_climber != null) {

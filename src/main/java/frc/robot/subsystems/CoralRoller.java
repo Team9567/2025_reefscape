@@ -24,6 +24,7 @@ public class CoralRoller extends SubsystemBase {
     // Set up the roller motor as a brushless motor
     rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushless);
 
+
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
@@ -39,6 +40,10 @@ public class CoralRoller extends SubsystemBase {
     rollerConfig.inverted(true);
     rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
+  public void runRollerRaw(double speed) {
+    rollerMotor.set(speed);
+}
+
 
   @Override
   public void periodic() {

@@ -45,7 +45,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         SparkMaxConfig algaeConfig = new SparkMaxConfig();
         algaeConfig.voltageCompensation(AlgaeConstants.ALGAE_MOTOR_VOLTAGE_COMP);
         algaeConfig.smartCurrentLimit(AlgaeConstants.ALGAE_MOTOR_CURRENT_LIMIT);
-        algaeConfig.idleMode(IdleMode.kBrake);
+        algaeConfig.idleMode(IdleMode.kCoast);
         pivotMotor.configure(algaeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // According to Dan, a timing delay between config requests has been observed to
@@ -132,8 +132,10 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     public Command reachForAlgae(
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
-                () -> pivotMotor.set(AlgaeConstants.ALGAE_ARM_REACH_SPEED),
-                () -> pivotMotor.set(0),
+                () -> {pivotMotor.set(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
+                SmartDashboard.putBoolean("reachforAlgae", true);},
+                () -> {pivotMotor.set(0);
+                SmartDashboard.putBoolean("reachforAlgae", false);},
                 algaeSubsystem)
                 .onlyWhile(
                         () -> (arminintakeposition()));
@@ -146,7 +148,8 @@ public class AlgaePickerSubsystem extends SubsystemBase {
                 () -> {
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
                     pivotMotor.set(AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED);
-                    setBrake(true, false);
+                    setBrake(false, false);
+                    
                 },
                 algaeSubsystem);
     }
@@ -157,9 +160,11 @@ public class AlgaePickerSubsystem extends SubsystemBase {
                 () -> {
                     pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED);
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
-                    setBrake(true, false);
+                    setBrake(false, false);
+                    SmartDashboard.putBoolean("ReturnArm", true);
                 },
-                () -> pivotMotor.set(0),
+                () -> {pivotMotor.set(0);
+                SmartDashboard.putBoolean("ReturnArm", false);},
                 algaeSubsystem)
                 .onlyWhile(
                         () -> (!arminhomeposition()));
