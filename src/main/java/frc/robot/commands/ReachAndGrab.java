@@ -10,18 +10,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.subsystems.AlgaePickerSubsystem;
 
-/** A command that will turn the robot to the specified angle. */
+/** A command that will reach and grab for algae */
 public class ReachAndGrab extends Command {
     AlgaePickerSubsystem picker;
 
-    /**
-     * Turns to robot to the specified angle.
-     *
-     * @param distance The distance to drive
-     * @param drive    The drive subsystem to use
+    /** 
+     * @param subsystem    The picker subsystem to use
      */
-    public ReachAndGrab(AlgaePickerSubsystem drive) {
-        picker = drive;
+    public ReachAndGrab(AlgaePickerSubsystem subsystem) {
+        picker = subsystem;
+        addRequirements(picker);
 
     }
 
@@ -30,7 +28,8 @@ public class ReachAndGrab extends Command {
     public void initialize() {
         picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
         picker.runintakemotor(AlgaeConstants.INTAKE_MOTOR_SPEED);
-        picker.setBrake(true, false);
+        picker.setBrake(false, false);
+        SmartDashboard.putBoolean("reachandgrab", true);
     }
 
     @Override
@@ -38,10 +37,10 @@ public class ReachAndGrab extends Command {
         SmartDashboard.putBoolean("arm in intake position", picker.arminintakeposition());
         picker.runintakemotor(AlgaeConstants.INTAKE_MOTOR_SPEED);
         if (picker.arminintakeposition()) {
-            picker.runpivotmotor(0);
+            picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED2);
             picker.setBrake(false, false);
         }else{
-            picker.setBrake(true, false);
+            picker.setBrake(false, false);
             picker.runpivotmotor(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
         }
     }
@@ -51,5 +50,9 @@ public class ReachAndGrab extends Command {
     {
         picker.runpivotmotor(0);
         picker.runintakemotor(0);
+        SmartDashboard.putBoolean("reachandgrab",false);
     }
+   
+
 }
+
