@@ -97,11 +97,11 @@ public final class Constants {
     public static final double ALGAE_EJECT_VALUE = 0.44;
     public static final double ALGAE_ARM_REACH_SPEED = -0.4;
     public static final double ALGAE_ARM_REACH_SPEED2 = -0.2;
-    public static final double ALGAE_ARM_HOME_POSITION = 0.135;
-    public static final double ALGAE_ARM_INTAKE_POSITION = 0.001;
+    public static final double ALGAE_ARM_HOME_POSITION = 0.796;
+    public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION - 0.135;
     public static final double INTAKE_MOTOR_SPEED = 0.90;
     public static final double INTAKE_HOLD_MOTOR_SPEED = 0.10;
-    public static final double PIVOT_HOLD_MOTOR_SPEED = 0.10;
+    public static final double PIVOT_HOLD_MOTOR_SPEED = 0.08;
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
     public static final double SHOOT_MOTOR_SPEED = -0.9;
@@ -109,10 +109,11 @@ public final class Constants {
 
   public static final class ClimberConstants {
     public static final int CLIMBER_MOTOR_ID = 8;
-    public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
+    public static final int CLIMBER_MOTOR_HOMING_CURRENT_LIMIT = 5;
+    public static final int CLIMBER_MOTOR_CLIMBING_CURRENT_LIMIT = 40;
     public static final double CLIMBER_MOTOR_VOLTAGE_COMP = 11;
     public static final double CLIMBER_MOTOR_INITIALIZE_SPEED = -0.60;
-    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 163.0;
+    public static final double CLIMBER_MOTOR_DOWN_LIMIT = 165.0;
     public static final double CLIMBER_MOTOR_UP_LIMIT = 430.0;
     public static final int CLIMBER_LIMIT_PORT = 0;
     public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
