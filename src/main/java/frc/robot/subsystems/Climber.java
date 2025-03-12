@@ -31,7 +31,7 @@ public class Climber extends SubsystemBase {
         limitChannel = new DigitalInput(ClimberConstants.CLIMBER_LIMIT_PORT);
     }
 
-    public void setMotorConfig(boolean softLimitEnabled, int currentLimit) {
+    public void setMotorConfig(boolean softLimitEnabled, int currentLimit, PersistMode persistMode) {
         SparkMaxConfig climberConfig = new SparkMaxConfig();
         climberConfig.voltageCompensation(ClimberConstants.CLIMBER_MOTOR_VOLTAGE_COMP);
         climberConfig.smartCurrentLimit(currentLimit);
@@ -46,7 +46,7 @@ public class Climber extends SubsystemBase {
         climberConfig.softLimit.forwardSoftLimit(ClimberConstants.CLIMBER_MOTOR_UP_LIMIT)
                 .reverseSoftLimit(ClimberConstants.CLIMBER_MOTOR_DOWN_LIMIT);
         // }
-        climberMotor.configure(climberConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        climberMotor.configure(climberConfig, ResetMode.kResetSafeParameters, persistMode);
     }
 
     public boolean getLimitSwitch() {
@@ -60,7 +60,7 @@ public class Climber extends SubsystemBase {
         // voltage dips. The current limit helps prevent breaker trips or burning out
         // the motor in the event the roller stalls.
         initialized = false;
-        setMotorConfig(false, ClimberConstants.CLIMBER_MOTOR_HOMING_CURRENT_LIMIT);
+        setMotorConfig(false, ClimberConstants.CLIMBER_MOTOR_HOMING_CURRENT_LIMIT, PersistMode.kPersistParameters);
     }
 
     public void initializeClimber() {
@@ -78,7 +78,7 @@ public class Climber extends SubsystemBase {
         } else {
             climberMotor.set(0);
             climberMotor.getEncoder().setPosition(0);
-            setMotorConfig(true, ClimberConstants.CLIMBER_MOTOR_CLIMBING_CURRENT_LIMIT);
+            setMotorConfig(true, ClimberConstants.CLIMBER_MOTOR_CLIMBING_CURRENT_LIMIT, PersistMode.kNoPersistParameters);
             initialized = true;
             SmartDashboard.putData(doResetClimber(this));
         }
