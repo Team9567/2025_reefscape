@@ -27,18 +27,14 @@ public class Climber extends SubsystemBase {
         // which sets or gets parameters during operation may need a shorter timeout.
         climberMotor.setCANTimeout(250);
 
-        // Create and apply configuration for roller motor. Voltage compensation helps
-        // the roller behave the same as the battery
-        // voltage dips. The current limit helps prevent breaker trips or burning out
-        // the motor in the event the roller stalls.
-        setMotorConfig(false);
+        resetClimber();
         limitChannel = new DigitalInput(ClimberConstants.CLIMBER_LIMIT_PORT);
     }
 
-    public void setMotorConfig(boolean softLimitEnabled) {
+    public void setMotorConfig(boolean softLimitEnabled, int currentLimit) {
         SparkMaxConfig climberConfig = new SparkMaxConfig();
         climberConfig.voltageCompensation(ClimberConstants.CLIMBER_MOTOR_VOLTAGE_COMP);
-        climberConfig.smartCurrentLimit(ClimberConstants.CLIMBER_MOTOR_CURRENT_LIMIT);
+        climberConfig.smartCurrentLimit(currentLimit);
         climberConfig.inverted(false);
         SmartDashboard.putBoolean("climber/limitenabled", softLimitEnabled);
         climberConfig.softLimit
@@ -57,6 +53,16 @@ public class Climber extends SubsystemBase {
         return !limitChannel.get();
     }
 
+    public void resetClimber()
+    {
+        // Create and apply configuration for roller motor. Voltage compensation helps
+        // the roller behave the same as the battery
+        // voltage dips. The current limit helps prevent breaker trips or burning out
+        // the motor in the event the roller stalls.
+        initialized = false;
+        setMotorConfig(false, ClimberConstants.CLIMBER_MOTOR_HOMING_CURRENT_LIMIT);
+    }
+
     public void initializeClimber() {
         SmartDashboard.putBoolean("climber/limitswitch", getLimitSwitch());
         SmartDashboard.putBoolean("climber/initialized", initialized);
@@ -72,9 +78,9 @@ public class Climber extends SubsystemBase {
         } else {
             climberMotor.set(0);
             climberMotor.getEncoder().setPosition(0);
-            setMotorConfig(true);
+            setMotorConfig(true, ClimberConstants.CLIMBER_MOTOR_CLIMBING_CURRENT_LIMIT);
             initialized = true;
-
+            SmartDashboard.putData(doResetClimber(this));
         }
     }
 
@@ -113,5 +119,12 @@ public class Climber extends SubsystemBase {
 
                 );
 
+    }
+
+    public Command doResetClimber(Climber climberSubsystem) {
+        return Commands.run(
+                () -> {
+                    resetClimber();
+                }, climberSubsystem);
     }
 }

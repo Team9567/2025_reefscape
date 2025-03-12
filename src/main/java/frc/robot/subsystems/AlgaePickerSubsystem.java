@@ -107,6 +107,16 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         return pivotEncoder.getPosition();
     }
 
+    public double getWrappedPivotAngle() {
+        double position = getPivotAngle();
+        /*
+        if (position > 0.5) {
+            position -= 1.0;
+        }
+            */
+        return position;
+    }
+
     public void setBrake(boolean enabled, boolean sync) {
         SparkMaxConfig config = new SparkMaxConfig();
         if (enabled) {
@@ -146,8 +156,11 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.run(
                 () -> {
+                    double wrappedPivotAngle = algaeSubsystem.getWrappedPivotAngle();
+                    double extensionAngle = AlgaeConstants.ALGAE_ARM_HOME_POSITION - wrappedPivotAngle;
+                    double scalingFactor = extensionAngle / (AlgaeConstants.ALGAE_ARM_HOME_POSITION - AlgaeConstants.ALGAE_ARM_INTAKE_POSITION);
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
-                    pivotMotor.set(AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED);
+                    pivotMotor.set(AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED * scalingFactor);
                     setBrake(false, false);
                     
                 },
