@@ -5,6 +5,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +37,7 @@ public class Climber extends SubsystemBase {
         climberConfig.voltageCompensation(ClimberConstants.CLIMBER_MOTOR_VOLTAGE_COMP);
         climberConfig.smartCurrentLimit(currentLimit);
         climberConfig.inverted(false);
+        climberConfig.idleMode(IdleMode.kBrake);
         SmartDashboard.putBoolean("climber/limitenabled", softLimitEnabled);
         climberConfig.softLimit
                 .forwardSoftLimitEnabled(softLimitEnabled)
