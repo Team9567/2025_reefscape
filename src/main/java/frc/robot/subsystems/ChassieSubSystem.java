@@ -92,11 +92,11 @@ public class ChassieSubSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("drivetrain/encoderticks", getAverageTicks());
+    //SmartDashboard.putNumber("drivetrain/encoderticks", getAverageTicks());
     SmartDashboard.putNumber("angle", m_gyro.getAngle());
     SmartDashboard.putNumber("power", m_leftFront.get());
-    SmartDashboard.putNumber("current", m_leftFront.getOutputCurrent());
-    SmartDashboard.putNumber("voltage", m_leftFront.getBusVoltage());
+    //SmartDashboard.putNumber("current", m_leftFront.getOutputCurrent());
+    //SmartDashboard.putNumber("voltage", m_leftFront.getBusVoltage());
   }
 
   @Override

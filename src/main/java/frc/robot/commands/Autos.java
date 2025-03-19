@@ -45,7 +45,7 @@ public final class Autos {
     if (coralSubsystem != null) {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem)
       .withTimeout(4.0)
-        .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
+        .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed).withTimeout(1.0));
     }
     else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);
@@ -67,23 +67,6 @@ public final class Autos {
         .andThen(new TurnToAngle(AutosConstants.k_toReefAngle1, subsystem))
         .andThen(new DriveDistanceCommand(AutosConstants.k_toReefDist2, subsystem))
         .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed, () -> AutosConstants.k_rollerReverseSpeed));
-    }
-    else {
-      return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);
-    }
-  }
-
-  public static Command sidePlusAlgae(ChassieSubSystem subsystem, CoralRoller coralSubsystem, AlgaePickerSubsystem algaeSubsystem) {
-    if (coralSubsystem != null && algaeSubsystem != null) {
-      return simpleAutoSide(subsystem, coralSubsystem)
-        .andThen(new DriveDistanceCommand(AutosConstants.k_fromReefDist2, subsystem))
-        .andThen(new TurnToAngle(AutosConstants.k_fromReefAngle2, subsystem))
-        .andThen(new DriveDistanceCommand(AutosConstants.k_toAlgaeDist1, subsystem)) // TO-DO, and start grab
-        .andThen(new TurnToAngle(AutosConstants.k_toProcessorAngle1, subsystem))
-        .andThen(new DriveDistanceCommand(AutosConstants.k_toProcessorDist1, subsystem))
-        .andThen(new TurnToAngle(AutosConstants.k_toProcessorAngle2, subsystem))
-        .andThen(new DriveDistanceCommand(AutosConstants.k_toProcessorDist2, subsystem))
-        .andThen(algaeSubsystem.scoreAlgae(algaeSubsystem));
     }
     else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);

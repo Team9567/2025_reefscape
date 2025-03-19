@@ -83,12 +83,12 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         boolean pivotintakepart1 = pivotposition < AlgaeConstants.ALGAE_ARM_INTAKE_POSITION;
 
         boolean pivotintakepart2 =  pivotposition > AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5;
-        SmartDashboard.putNumber("pivotposition",pivotposition );
-        SmartDashboard.putNumber("pivotintakelimit2", AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5);
-        SmartDashboard.putBoolean("pivotintakepart1", pivotintakepart1);
-        SmartDashboard.putBoolean("pivotintakepart2", pivotintakepart2);
-        SmartDashboard.putBoolean("pivotinintakeposition", pivotintakepart1 || pivotintakepart2);
-
+       // SmartDashboard.putNumber("pivotposition",pivotposition );
+       // SmartDashboard.putNumber("pivotintakelimit2", AlgaeConstants.ALGAE_ARM_INTAKE_POSITION + 0.5);
+        //SmartDashboard.putBoolean("pivotintakepart1", pivotintakepart1);
+        //SmartDashboard.putBoolean("pivotintakepart2", pivotintakepart2);
+        //SmartDashboard.putBoolean("pivotinintakeposition", pivotintakepart1 || pivotintakepart2);
+        
         return pivotintakepart1 || pivotintakepart2;
     }
 
@@ -96,9 +96,9 @@ public class AlgaePickerSubsystem extends SubsystemBase {
         double pivotposition = pivotEncoder.getPosition();
         boolean pivothomepart1 = pivotposition > AlgaeConstants.ALGAE_ARM_HOME_POSITION;
         boolean pivothomepart2 = pivotposition < AlgaeConstants.ALGAE_ARM_HOME_POSITION + 0.5;
-        SmartDashboard.putBoolean("pivothomepart1", pivothomepart1);
-        SmartDashboard.putBoolean("pivothomepart2", pivothomepart2);
-        SmartDashboard.putBoolean("pivotinhomeposition",pivothomepart1 && pivothomepart2);        
+        //SmartDashboard.putBoolean("pivothomepart1", pivothomepart1);
+        //SmartDashboard.putBoolean("pivothomepart2", pivothomepart2);
+        //SmartDashboard.putBoolean("pivotinhomeposition",pivothomepart1 && pivothomepart2);        
         
         return pivothomepart1 && pivothomepart2;
     }
@@ -143,9 +143,11 @@ public class AlgaePickerSubsystem extends SubsystemBase {
             AlgaePickerSubsystem algaeSubsystem) {
         return Commands.startEnd(
                 () -> {pivotMotor.set(AlgaeConstants.ALGAE_ARM_REACH_SPEED);
-                SmartDashboard.putBoolean("reachforAlgae", true);},
+                //SmartDashboard.putBoolean("reachforAlgae", true);
+                },
                 () -> {pivotMotor.set(0);
-                SmartDashboard.putBoolean("reachforAlgae", false);},
+                //SmartDashboard.putBoolean("reachforAlgae", false);
+                },
                 algaeSubsystem)
                 .onlyWhile(
                         () -> (arminintakeposition()));
@@ -174,10 +176,11 @@ public class AlgaePickerSubsystem extends SubsystemBase {
                     pivotMotor.set(AlgaeConstants.ALGAE_ARM_RETURN_SPEED);
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
                     setBrake(false, false);
-                    SmartDashboard.putBoolean("ReturnArm", true);
+                    //SmartDashboard.putBoolean("ReturnArm", true);
                 },
                 () -> {pivotMotor.set(0);
-                SmartDashboard.putBoolean("ReturnArm", false);},
+                //SmartDashboard.putBoolean("ReturnArm", false);
+                },
                 algaeSubsystem)
                 .onlyWhile(
                         () -> (!arminhomeposition()));
@@ -194,9 +197,9 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("armAngle", pivotEncoder.getPosition());
-        SmartDashboard.putNumber("armSpeed", pivotMotor.get());
-        SmartDashboard.putNumber("intake speed", intakeMotor.get());
+        //SmartDashboard.putNumber("armAngle", pivotEncoder.getPosition());
+        //SmartDashboard.putNumber("armSpeed", pivotMotor.get());
+        //SmartDashboard.putNumber("intake speed", intakeMotor.get());
         arminhomeposition();
         arminintakeposition();
     }
