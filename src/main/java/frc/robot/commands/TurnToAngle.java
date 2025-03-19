@@ -48,7 +48,7 @@ public class TurnToAngle extends PIDCommand {
     drivetrain.disableramp();
     drivetrain.zeroHeading();
 
-    //getController().reset();
+    getController().reset();
   }
 
   @Override
@@ -61,6 +61,7 @@ public class TurnToAngle extends PIDCommand {
   @Override
   public void end(boolean interupted) {
     drivetrain.enableramp();
+    drivetrain.arcadeDrive(0,0);
   }
 }
 

@@ -9,6 +9,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -80,6 +81,19 @@ public class RobotContainer {
     autochooser.addOption("longtwocoral", Autos.sidePlusCoral(m_ChassieSubsystem, m_coralRoller));
     SmartDashboard.putData("AutoPosition", autochooser);
 
+    CommandScheduler Scheduler = CommandScheduler.getInstance();
+
+    Scheduler.onCommandInitialize(
+      command -> System.out.println(command.getClass().getName() + " initialize"));
+
+    Scheduler.onCommandInterrupt(
+      command -> System.out.println(command.getClass().getName() + " interrupt"));
+
+    Scheduler.onCommandFinish(
+      command -> System.out.println(command.getClass().getName() + " finish"));
+
+    Scheduler.onCommandExecute(
+      command -> System.out.println(command.getClass().getName() + " execute"));
   }
 
   /**
