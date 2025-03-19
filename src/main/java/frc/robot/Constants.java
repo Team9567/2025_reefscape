@@ -48,9 +48,9 @@ public final class Constants {
     public static final double kDriveP = 0.35;
     public static final double kDriveI = 0;
     public static final double kDriveD = 0.02;
-    public static final double kTurnP = 0.06;
+    public static final double kTurnP = 0.05;
     public static final double kTurnI = 0.0;
-    public static final double kTurnD  = 0.0;
+    public static final double kTurnD  = 0.005;
     public static final double kDriveToleranceInches = 1.0;
     public static final double kDriveToleranceInchesPerS = 0;
     public static final double kTurnToleranceDeg = 1.5;
@@ -80,6 +80,10 @@ public final class Constants {
 
   public static final class RollerConstants {
     public static final int ROLLER_MOTOR_ID = 5;
+    public static final int HORIZONTAL_RANGE_ID = 16;
+    public static final int HORIZONTAL_RANGE_UPPER_LIMIT = 400;
+    public static final int VERTICAL_RANGE_UPPER_LIMIT = 30;
+    public static final int VERTICAL_RANGE_ID = 17;
     public static final int ROLLER_MOTOR_CURRENT_LIMIT = 60;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
     public static final double ROLLER_EJECT_VALUE = 0.30;
@@ -144,23 +148,18 @@ public final class Constants {
     public static final double k_rollerForwardSpeed = 0.20;
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
-    public static final double k_fromReefDist1 = 0.0;
-    public static final double k_fromReefAngle1 = 0.0;
-    public static final double k_toSourceDist1 = 0.0;
+
+    // sidePlusCoral
+    public static final double k_fromReefDist1 = 24.0;
+    public static final double k_fromReefAngle1 = 110.0;
+    public static final double k_toSourceDist1 = 190.0;
     public static final double k_toSourceAngle1 = 0.0;
     public static final double k_toSourceDist2 = 0.0;
-    public static final double k_fromSourceDist1 = 0.0;
+    public static final double k_fromSourceDist1 = -160.0;
     public static final double k_fromSourceAngle1 = 0.0;
     public static final double k_toReefDist1 = 0.0;
     public static final double k_toReefAngle1 = 0.0;
     public static final double k_toReefDist2 = 0.0;
-    public static final double k_fromReefDist2 = 0.0;
-    public static final double k_fromReefAngle2 = 0.0;
-    public static final double k_toAlgaeDist1 = 0.0;
-    public static final double k_toProcessorAngle1 = 0.0;
-    public static final double k_toProcessorDist1 = 0.0;
-    public static final double k_toProcessorAngle2 = 0.0;
-    public static final double k_toProcessorDist2 = 0.0;
   }
 
   public static final class RobotConstants {
