@@ -160,7 +160,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
                     double extensionAngle = AlgaeConstants.ALGAE_ARM_HOME_POSITION - wrappedPivotAngle;
                     double scalingFactor = extensionAngle / (AlgaeConstants.ALGAE_ARM_HOME_POSITION - AlgaeConstants.ALGAE_ARM_INTAKE_POSITION);
                     intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
-                    pivotMotor.set(AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED * scalingFactor);
+                    pivotMotor.set((AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED * scalingFactor) + 0.02);
                     setBrake(false, false);
                     
                 },
