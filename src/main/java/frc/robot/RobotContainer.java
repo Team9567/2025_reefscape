@@ -80,20 +80,6 @@ public class RobotContainer {
     autochooser.addOption("long", Autos.simpleAutoSide(m_ChassieSubsystem, m_coralRoller));
     autochooser.addOption("longtwocoral", Autos.sidePlusCoral(m_ChassieSubsystem, m_coralRoller));
     SmartDashboard.putData("AutoPosition", autochooser);
-
-    CommandScheduler Scheduler = CommandScheduler.getInstance();
-
-    Scheduler.onCommandInitialize(
-      command -> System.out.println(command.getClass().getName() + " initialize"));
-
-    Scheduler.onCommandInterrupt(
-      command -> System.out.println(command.getClass().getName() + " interrupt"));
-
-    Scheduler.onCommandFinish(
-      command -> System.out.println(command.getClass().getName() + " finish"));
-
-    Scheduler.onCommandExecute(
-      command -> System.out.println(command.getClass().getName() + " execute"));
   }
 
   /**
@@ -135,8 +121,7 @@ public class RobotContainer {
     }
 
   
-  
-    m_ChassieSubsystem.setDefaultCommand(new RunCommand(
+    RunCommand chassisDefault = new RunCommand(
       () -> {
         SmartDashboard.putBoolean("M_inLowGear", m_inLowGear);
         if (m_inLowGear) {
@@ -148,21 +133,30 @@ public class RobotContainer {
         else {
           m_ChassieSubsystem.arcadeDrive(m_driverController.getRawAxis(1), m_driverController.getRawAxis(4));
         }
-      }, m_ChassieSubsystem));
+      }, m_ChassieSubsystem);
+      chassisDefault.setName("chassisDefault");
+  
+    m_ChassieSubsystem.setDefaultCommand(chassisDefault);
 
     m_driverController.button(ButtonConstants.kButtonX).whileTrue(new DriveDistanceCommand(24, m_ChassieSubsystem));
     m_driverController.button(ButtonConstants.kButtonB).whileTrue(new TurnToAngle(90, m_ChassieSubsystem));
     m_driverController.button(ButtonConstants.kButtonA).whileTrue(new TurnToAngle(15, m_ChassieSubsystem));
-    m_driverController.button(ButtonConstants.kButtonRB).onTrue(new InstantCommand(
+
+    InstantCommand lowGearEnable = new InstantCommand(
       () -> {
         m_inLowGear = true;
         SmartDashboard.putBoolean("M_inLowGear", m_inLowGear);
-      }));
-    m_driverController.button(ButtonConstants.kButtonRB).onFalse(new InstantCommand(
+      });
+    lowGearEnable.setName("lowGearEnable");
+    m_driverController.button(ButtonConstants.kButtonRB).onTrue(lowGearEnable);
+
+    InstantCommand lowGearDis = new InstantCommand(
       () -> {
         m_inLowGear = false;
         SmartDashboard.putBoolean("M_inLowGear", m_inLowGear);
-      }));
+      });
+    lowGearDis.setName("lowGearDis");
+    m_driverController.button(ButtonConstants.kButtonRB).onFalse(lowGearDis);
   }
 
   /**
