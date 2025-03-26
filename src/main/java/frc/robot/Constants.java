@@ -61,7 +61,7 @@ public final class Constants {
     public static final double kTurnClamp = 0.5;
     public static final boolean kGyroReversed = true;
     public static final NavXComType kGyroPort = NavXComType.kMXP_SPI;
-    public static final double kLowGearSpeed = 0.35;
+    public static final double kLowGearSpeed = 0.50;
    
   }
   public static class MathUtils {
@@ -95,13 +95,13 @@ public final class Constants {
     public static final int ALGAE_MOTOR_CURRENT_LIMIT = 60;
     public static final double ALGAE_MOTOR_VOLTAGE_COMP = 10;
     public static final double ALGAE_EJECT_VALUE = 0.44;
-    public static final double ALGAE_ARM_REACH_SPEED = -0.4;
+    public static final double ALGAE_ARM_REACH_SPEED = -0.30;
     public static final double ALGAE_ARM_REACH_SPEED2 = -0.2;
     public static final double ALGAE_ARM_HOME_POSITION = 0.796;
     public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION - 0.135;
     public static final double INTAKE_MOTOR_SPEED = 0.90;
-    public static final double INTAKE_HOLD_MOTOR_SPEED = 0.10;
-    public static final double PIVOT_HOLD_MOTOR_SPEED = 0.16;
+    public static final double INTAKE_HOLD_MOTOR_SPEED = 0.30;
+    public static final double PIVOT_HOLD_MOTOR_SPEED = 0.20;
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
     public static final double SHOOT_MOTOR_SPEED = -0.9;
