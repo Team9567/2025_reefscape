@@ -148,18 +148,9 @@ public final class Constants {
     public static final double k_rollerForwardSpeed = 0.20;
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
-
-    // sidePlusCoral
-    public static final double k_fromReefDist1 = 24.0;
-    public static final double k_fromReefAngle1 = 110.0;
-    public static final double k_toSourceDist1 = 190.0;
-    public static final double k_toSourceAngle1 = 0.0;
-    public static final double k_toSourceDist2 = 0.0;
-    public static final double k_fromSourceDist1 = -160.0;
-    public static final double k_fromSourceAngle1 = 0.0;
-    public static final double k_toReefDist1 = 0.0;
-    public static final double k_toReefAngle1 = 0.0;
-    public static final double k_toReefDist2 = 0.0;
+    public static final double k_algaebatTurn = 180;
+    public static final double k_algaebatDist1 = -24;
+    public static final double k_algaebatDist2 = 24;
   }
 
   public static final class RobotConstants {

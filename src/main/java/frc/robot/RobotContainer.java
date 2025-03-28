@@ -74,11 +74,9 @@ public class RobotContainer {
     }
     // Configure the trigger bindings
     configureBindings();
-    autochooser.addOption("left", Autos.simpleAutoLeft(m_ChassieSubsystem, m_coralRoller));
     autochooser.addOption("middle", Autos.simpleAutoMiddle(m_ChassieSubsystem, m_coralRoller));
-    autochooser.addOption("right", Autos.simpleAutoRight(m_ChassieSubsystem, m_coralRoller));
     autochooser.addOption("long", Autos.simpleAutoSide(m_ChassieSubsystem, m_coralRoller));
-    autochooser.addOption("longtwocoral", Autos.sidePlusCoral(m_ChassieSubsystem, m_coralRoller));
+    autochooser.addOption("midplusalgae", Autos.midCoralPlusAlgae(m_ChassieSubsystem, m_coralRoller));
     SmartDashboard.putData("AutoPosition", autochooser);
   }
 
