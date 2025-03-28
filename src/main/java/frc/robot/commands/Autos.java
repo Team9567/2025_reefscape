@@ -72,6 +72,22 @@ public final class Autos {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subsystem);
     }
   }
+  public static Command knockAlgae(ChassieSubSystem subSystem){
+    return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem);
+    .andThen(new TurnToAngle())
+    .andThen(new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem));
+    .andThen(new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem));
+  }
+  public static Command midCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem){
+    if (coralSubsystem != null) {
+      return simpleAutoMiddle(subSystem, coralSubsystem)
+        .andThen(knockAlgae(subSystem));
+
+  }
+  
+  
+  
+  }
 
   public static Command simpleAutoRight(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
     if (coralSubsystem != null) {
