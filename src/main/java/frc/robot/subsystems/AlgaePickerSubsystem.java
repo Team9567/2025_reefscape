@@ -25,7 +25,7 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     LaserCan algaeRanger;
 
     public AlgaePickerSubsystem() {
-        // Set up the roller motor as a brushless motor
+        // Set up the pivot and intake motors as brushless motors
         pivotMotor = new SparkMax(AlgaeConstants.PIVOT_MOTOR_ID, MotorType.kBrushless);
         intakeMotor = new SparkFlex(AlgaeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
         pivotEncoder = pivotMotor.getAbsoluteEncoder();

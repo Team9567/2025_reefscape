@@ -107,6 +107,12 @@ public final class Constants {
     public static final double SHOOT_MOTOR_SPEED = -0.9;
   }
 
+  public static final class AlgaeBatConstants {
+    public static final int PIVOT_MOTOR_ID = 9;
+    public static final double ALGAE_BAT_REACH_SPEED = 0.0;
+    public static final double ALGAE_BAT_RETURN_SPEED = 0.0;
+  }
+
   public static final class ClimberConstants {
     public static final int CLIMBER_MOTOR_ID = 8;
     public static final int CLIMBER_MOTOR_HOMING_CURRENT_LIMIT = 5;
