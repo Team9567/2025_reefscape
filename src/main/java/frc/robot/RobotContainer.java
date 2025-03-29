@@ -26,6 +26,7 @@ import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.ReachAndGrab;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.AlgaePickerSubsystem;
+import frc.robot.subsystems.AlgaeBat;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralRoller;
@@ -43,6 +44,7 @@ public class RobotContainer {
   private boolean m_inLowGear = false;
   private CoralRoller m_coralRoller;
   private AlgaePickerSubsystem m_algaePicker;
+  private AlgaeBat m_algaeBat;
   private Climber m_climber;
   
 
@@ -62,6 +64,7 @@ public class RobotContainer {
     if (RobotConstants.k_IsCompBot) {
       m_coralRoller = new CoralRoller();
       m_algaePicker = new AlgaePickerSubsystem();
+      m_algaeBat = new AlgaeBat();
       m_climber = new Climber();
       // Creates UsbCamera
       CameraServer.startAutomaticCapture();
@@ -99,16 +102,23 @@ public class RobotContainer {
       m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(new CoralJostlerCommand(m_coralRoller));
     }
 
-
     if (m_algaePicker != null) {
       m_algaePicker.setDefaultCommand(m_algaePicker.holdAlgae(m_algaePicker));
       m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker));
       m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.scoreAlgae(m_algaePicker));
     }
+
+    if (m_algaeBat != null) {
+      //m_algaeBat.setDefaultCommand(m_AlgaePicker.holdAlgae(m_algaePicker));
+      m_controllerController.axisGreaterThan(ButtonConstants.kAxisLT, 0.5).whileTrue(m_algaeBat.extendBat(m_algaeBat));
+      m_controllerController.axisGreaterThan(ButtonConstants.kAxisRT, 0.5).whileTrue(m_algaeBat.returnBat(m_algaeBat));
+    }
+
     if(m_climber != null) {
       m_controllerController.button(ButtonConstants.kButtonStart).whileTrue(m_climber.extendClimber(m_climber));
       m_controllerController.button(ButtonConstants.kButtonBack).whileTrue(m_climber.reverseClimber(m_climber));
     }
+
   
   
     m_ChassieSubsystem.setDefaultCommand(new RunCommand(
