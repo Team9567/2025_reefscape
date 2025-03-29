@@ -111,8 +111,8 @@ public final class Constants {
 
   public static final class AlgaeBatConstants {
     public static final int PIVOT_MOTOR_ID = 9;
-    public static final double ALGAE_BAT_REACH_SPEED = 0.35;
-    public static final double ALGAE_BAT_RETURN_SPEED = -0.35;
+    public static final double ALGAE_BAT_REACH_SPEED = 0.25;
+    public static final double ALGAE_BAT_RETURN_SPEED = -0.25;
     public static final double ALGAE_BAT_HOME_POSITION = 0.0;
     public static final double ALGAE_BAT_KNOCK_POSITION = 0.5;
     public static final int ALGAE_BAT_MOTOR_CURRENT_LIMIT = 10;
