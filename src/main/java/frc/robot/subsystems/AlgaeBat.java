@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeBatConstants;
 import frc.robot.Constants.AlgaeConstants;
 
-public class AlgaeBat extends SubsystemBase{
+public class AlgaeBat extends SubsystemBase {
     final SparkMax pivotMotor;
     LaserCan algaeRanger;
 
@@ -47,14 +47,15 @@ public class AlgaeBat extends SubsystemBase{
     public boolean batInKnockPosition() {
         double pivotposition = getPivotAngle();
         boolean pivotKnock = pivotposition >= AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION;
-        
+
         return pivotKnock;
     }
 
     public boolean batInHomePosition() {
         double pivotposition = getPivotAngle();
-        boolean pivothome = pivotposition >= AlgaeBatConstants.ALGAE_BAT_HOME_POSITION && pivotposition < AlgaeBatConstants.ALGAE_BAT_HOME_POSITION + 0.01;        
-        
+        boolean pivothome = pivotposition >= AlgaeBatConstants.ALGAE_BAT_HOME_POSITION
+                && pivotposition < AlgaeBatConstants.ALGAE_BAT_HOME_POSITION + 0.01;
+
         return pivothome;
     }
 
@@ -74,12 +75,9 @@ public class AlgaeBat extends SubsystemBase{
                     .idleMode(IdleMode.kCoast);
         }
 
-        if (sync)
-        {
+        if (sync) {
             pivotMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-        }
-        else
-        {
+        } else {
             pivotMotor.configureAsync(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
         }
     }
@@ -91,7 +89,9 @@ public class AlgaeBat extends SubsystemBase{
                 double extensionAngle = AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION - getPivotAngle();
                 double scalingFactor = extensionAngle / (AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION - AlgaeBatConstants.ALGAE_BAT_HOME_POSITION);
                 pivotMotor.set((AlgaeBatConstants.ALGAE_BAT_REACH_SPEED * scalingFactor) + 0.02);
-                SmartDashboard.putBoolean("extendBat", true);},
+                SmartDashboard.putBoolean("extendBat", true);
+                SmartDashboard.putNumber("extendBatSpeed", AlgaeBatConstants.ALGAE_BAT_REACH_SPEED * scalingFactor);
+                },
                 () -> {pivotMotor.set(0);
                 SmartDashboard.putBoolean("extendBat", false);},
                 algaeBat)
@@ -104,12 +104,17 @@ public class AlgaeBat extends SubsystemBase{
         return Commands.startEnd(
                 () -> {
                     double extensionAngle = AlgaeBatConstants.ALGAE_BAT_HOME_POSITION - getPivotAngle();
-                    double scalingFactor = extensionAngle / (AlgaeBatConstants.ALGAE_BAT_HOME_POSITION - AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION);
+                    double scalingFactor = extensionAngle
+                            / (AlgaeBatConstants.ALGAE_BAT_HOME_POSITION - AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION);
                     pivotMotor.set((AlgaeBatConstants.ALGAE_BAT_RETURN_SPEED * scalingFactor) + 0.02);
                     SmartDashboard.putBoolean("ReturnBat", true);
+                    SmartDashboard.putNumber("ReturnBatSpeed",
+                            AlgaeBatConstants.ALGAE_BAT_RETURN_SPEED * scalingFactor);
                 },
-                () -> {pivotMotor.set(0);
-                SmartDashboard.putBoolean("ReturnBat", false);},
+                () -> {
+                    pivotMotor.set(0);
+                    SmartDashboard.putBoolean("ReturnBat", false);
+                },
                 algaeBat)
                 .onlyWhile(
                         () -> (!batInHomePosition()));
