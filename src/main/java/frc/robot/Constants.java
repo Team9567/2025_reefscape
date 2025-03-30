@@ -102,7 +102,7 @@ public final class Constants {
     public static final double ALGAE_ARM_HOME_POSITION = 0.796;
     public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION - 0.135;
     public static final double INTAKE_MOTOR_SPEED = 0.90;
-    public static final double INTAKE_HOLD_MOTOR_SPEED = 0.30;
+    public static final double INTAKE_HOLD_MOTOR_SPEED = 0.10;
     public static final double PIVOT_HOLD_MOTOR_SPEED = 0.20;
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
@@ -111,11 +111,11 @@ public final class Constants {
 
   public static final class AlgaeBatConstants {
     public static final int PIVOT_MOTOR_ID = 9;
-    public static final double ALGAE_BAT_REACH_SPEED = 0.25;
-    public static final double ALGAE_BAT_RETURN_SPEED = -0.25;
+    public static final double ALGAE_BAT_REACH_SPEED = 0.20;
+    public static final double ALGAE_BAT_RETURN_SPEED = -0.80;
     public static final double ALGAE_BAT_HOME_POSITION = 0.0;
-    public static final double ALGAE_BAT_KNOCK_POSITION = 0.5;
-    public static final int ALGAE_BAT_MOTOR_CURRENT_LIMIT = 10;
+    public static final double ALGAE_BAT_KNOCK_POSITION = 10.0;
+    public static final int ALGAE_BAT_MOTOR_CURRENT_LIMIT = 40;
     public static final double ALGAE_BAT_MOTOR_VOLTAGE_COMP = 10;
   }
 
