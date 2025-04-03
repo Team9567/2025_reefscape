@@ -90,6 +90,17 @@ public final class Autos {
 
   }
 
+  public static Command sideCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem) {
+    if (coralSubsystem != null) {
+      return simpleAutoSide(subSystem, coralSubsystem)
+          .andThen(knockAlgae(subSystem, batsubSystem));
+
+    } else {
+      return new DriveDistanceCommand(AutosConstants.k_sideDist1, subSystem);
+    }
+
+  }
+
   public static Command simpleAutoRight(ChassieSubSystem subsystem, CoralRoller coralSubsystem) {
     if (coralSubsystem != null) {
       return new DriveDistanceCommand(AutosConstants.k_rightDist1, subsystem)
