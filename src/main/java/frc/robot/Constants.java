@@ -149,8 +149,8 @@ public final class Constants {
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
     public static final double k_algaebatTurn = 180;
-    public static final double k_algaebatDist1 = -24;
-    public static final double k_algaebatDist2 = 24;
+    public static final double k_algaebatDist1 = 24;
+    public static final double k_algaebatDist2 = -24;
   }
 
   public static final class RobotConstants {

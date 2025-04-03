@@ -113,8 +113,11 @@ public class CoralRoller extends SubsystemBase {
   // Command to run the roller with joystick inputs
   public Command runRoller(
       CoralRoller rollerSubsystem, DoubleSupplier forward, DoubleSupplier reverse) {
-    return Commands.run(
-        () -> rollerMotor.set(forward.getAsDouble() - reverse.getAsDouble()), rollerSubsystem);
+    return Commands.runEnd(
+        () -> rollerMotor.set(forward.getAsDouble() - reverse.getAsDouble()),
+        () -> rollerMotor.set(0.0),
+        rollerSubsystem
+        );
   }
 
 }
