@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.AutosConstants;
 import frc.robot.subsystems.AlgaeBat;
+import frc.robot.subsystems.AlgaePickerSubsystem;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.CoralRoller;
 
@@ -33,7 +34,7 @@ public final class Autos {
     if (coralSubsystem != null) {
       return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem)
           .withTimeout(2.0)
-          .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed,
+          .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerAutoSpeed,
               () -> AutosConstants.k_rollerReverseSpeed).withTimeout(1.0));
     } else {
       return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem);
@@ -51,9 +52,9 @@ public final class Autos {
     }
   }
 
-  public static Command knockAlgae(ChassieSubSystem subSystem, AlgaeBat batsubSystem) {
+  public static Command knockAlgae(ChassieSubSystem subSystem, AlgaeBat batsubSystem, AlgaePickerSubsystem pickerSubsystem) {
     ParallelCommandGroup turnAndRaiseBat = new ParallelCommandGroup(
-        new TurnToAngle(AutosConstants.k_algaebatTurn, subSystem),
+        new TurnToAngle(AutosConstants.k_algaebatTurn, subSystem).withTimeout(3.0),
         batsubSystem.extendBat(batsubSystem)
         );
 
@@ -79,10 +80,12 @@ public final class Autos {
         .andThen(swingBatAndRun);
   }
 
-  public static Command midCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem) {
+  public static Command midCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem, AlgaePickerSubsystem pickerSubsystem) {
     if (coralSubsystem != null) {
       return simpleAutoMiddle(subSystem, coralSubsystem)
-          .andThen(knockAlgae(subSystem, batsubSystem));
+          .andThen(knockAlgae(subSystem, batsubSystem, pickerSubsystem).withTimeout(7.0))
+          .andThen(new ReachAndGrab(pickerSubsystem)
+          .withTimeout(2.0));
 
     } else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subSystem);
@@ -90,10 +93,10 @@ public final class Autos {
 
   }
 
-  public static Command sideCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem) {
+  public static Command sideCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem, AlgaePickerSubsystem pickerSubsystem) {
     if (coralSubsystem != null) {
       return simpleAutoSide(subSystem, coralSubsystem)
-          .andThen(knockAlgae(subSystem, batsubSystem));
+          .andThen(knockAlgae(subSystem, batsubSystem, pickerSubsystem));
 
     } else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subSystem);

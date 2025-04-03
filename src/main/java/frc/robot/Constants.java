@@ -146,6 +146,7 @@ public final class Constants {
     public static final double k_rightDist2 = -88;
     public static final double k_middleDist1 = -88;
     public static final double k_rollerForwardSpeed = 0.20;
+    public static final double k_rollerAutoSpeed = 0.16;
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
     public static final double k_algaebatTurn = 180;
