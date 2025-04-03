@@ -76,8 +76,8 @@ public class RobotContainer {
     configureBindings();
     autochooser.addOption("middle", Autos.simpleAutoMiddle(m_ChassieSubsystem, m_coralRoller));
     autochooser.addOption("long", Autos.simpleAutoSide(m_ChassieSubsystem, m_coralRoller));
-    autochooser.addOption("midplusalgae", Autos.midCoralPlusAlgae(m_ChassieSubsystem, m_coralRoller, m_algaeBat));
-    autochooser.addOption("longplusalgae", Autos.sideCoralPlusAlgae(m_ChassieSubsystem, m_coralRoller, m_algaeBat));
+    autochooser.addOption("midplusalgae", Autos.midCoralPlusAlgae(m_ChassieSubsystem, m_coralRoller, m_algaeBat, m_algaePicker));
+    autochooser.addOption("longplusalgae", Autos.sideCoralPlusAlgae(m_ChassieSubsystem, m_coralRoller, m_algaeBat, m_algaePicker));
     SmartDashboard.putData("AutoPosition", autochooser);
   }
 
