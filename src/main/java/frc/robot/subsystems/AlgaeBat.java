@@ -84,7 +84,7 @@ public class AlgaeBat extends SubsystemBase {
 
     public Command extendBat(
             AlgaeBat algaeBat) {
-        return Commands.startEnd(
+        return Commands.runEnd(
                 () -> {
                 double extensionAngle = AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION - getPivotAngle();
                 double scalingFactor = extensionAngle / (AlgaeBatConstants.ALGAE_BAT_KNOCK_POSITION - AlgaeBatConstants.ALGAE_BAT_HOME_POSITION);
@@ -101,7 +101,7 @@ public class AlgaeBat extends SubsystemBase {
 
     public Command returnBat(
             AlgaeBat algaeBat) {
-        return Commands.startEnd(
+        return Commands.runEnd(
                 () -> {
                     double extensionAngle = AlgaeBatConstants.ALGAE_BAT_HOME_POSITION - getPivotAngle();
                     double scalingFactor = extensionAngle
