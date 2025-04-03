@@ -4,17 +4,14 @@
 
 package frc.robot.commands;
 
-import frc.robot.commands.DriveDistanceCommand;
-import frc.robot.Constants.AutosConstants;
-import frc.robot.Constants.RobotConstants;
-import frc.robot.subsystems.AlgaePickerSubsystem;
-import frc.robot.subsystems.ChassieSubSystem;
-import frc.robot.subsystems.CoralRoller;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Constants.AutosConstants;
+import frc.robot.subsystems.AlgaeBat;
+import frc.robot.subsystems.ChassieSubSystem;
+import frc.robot.subsystems.CoralRoller;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
@@ -37,7 +34,7 @@ public final class Autos {
       return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem)
           .withTimeout(2.0)
           .andThen(coralSubsystem.runRoller(coralSubsystem, () -> AutosConstants.k_rollerForwardSpeed,
-              () -> AutosConstants.k_rollerReverseSpeed));
+              () -> AutosConstants.k_rollerReverseSpeed).withTimeout(1.0));
     } else {
       return new DriveDistanceCommand(AutosConstants.k_middleDist1, subsystem);
     }
@@ -54,31 +51,38 @@ public final class Autos {
     }
   }
 
-  public static Command knockAlgae(ChassieSubSystem subSystem) {
+  public static Command knockAlgae(ChassieSubSystem subSystem, AlgaeBat batsubSystem) {
     ParallelCommandGroup turnAndRaiseBat = new ParallelCommandGroup(
         new TurnToAngle(AutosConstants.k_algaebatTurn, subSystem),
-        // This is a stand-in for raiseBat
-        new InstantCommand(() -> {
-        }));
+        batsubSystem.extendBat(batsubSystem)
+        );
 
     ParallelCommandGroup swingBatAndRun = new ParallelCommandGroup(
-        // This is a stand-in for swingBat command
-        new InstantCommand(() -> {
-        }),
+        batsubSystem.returnBat(batsubSystem),
         new InstantCommand(() -> {
         }).withTimeout(1).andThen(new DriveDistanceCommand(AutosConstants.k_algaebatDist2, subSystem).withTimeout(1)));
 
     return new DriveDistanceCommand(AutosConstants.k_algaebatDist1, subSystem).withTimeout(1)
-        .andThen(turnAndRaiseBat)
+        .andThen(new InstantCommand(() -> {
+          SmartDashboard.putString("auto/step", "retreat from reef");
+        }))
+        .andThen(turnAndRaiseBat.withTimeout(2.0))
+        .andThen(new InstantCommand(() -> {
+          SmartDashboard.putString("auto/step", "retreat from reef");
+        }))
         .andThen(new DriveDistanceCommand(AutosConstants.k_algaebatDist1, subSystem)
             .withTimeout(1))
+        .andThen(new InstantCommand(() -> {
+          SmartDashboard.putString("auto/step", "approach reef");
+        }))
+
         .andThen(swingBatAndRun);
   }
 
-  public static Command midCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem) {
+  public static Command midCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem) {
     if (coralSubsystem != null) {
       return simpleAutoMiddle(subSystem, coralSubsystem)
-          .andThen(knockAlgae(subSystem));
+          .andThen(knockAlgae(subSystem, batsubSystem));
 
     } else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subSystem);
