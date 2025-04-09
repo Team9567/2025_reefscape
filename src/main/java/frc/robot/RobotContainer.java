@@ -6,6 +6,8 @@ package frc.robot;
 
 import au.grapplerobotics.CanBridge;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.ButtonConstants;
 import frc.robot.Constants.ChassisConstants;
 import frc.robot.Constants.ControllerConstants;
@@ -47,6 +50,10 @@ public class RobotContainer {
   private AlgaePickerSubsystem m_algaePicker;
   private AlgaeBat m_algaeBat;
   private Climber m_climber;
+
+  UsbCamera frontCamera;
+  UsbCamera backCamera;
+  VideoSink server;
   
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -68,7 +75,10 @@ public class RobotContainer {
       m_algaeBat = new AlgaeBat();
       m_climber = new Climber();
       // Creates UsbCamera
-      CameraServer.startAutomaticCapture();
+      frontCamera = CameraServer.startAutomaticCapture(1);
+      backCamera = CameraServer.startAutomaticCapture(0);
+      server = CameraServer.getServer();
+      server.setSource(backCamera);
       // enable lasercan config bridge
       //CanBridge.runTCP();
     }
@@ -97,14 +107,14 @@ public class RobotContainer {
     if (m_coralRoller != null) {
       m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
       m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
-      m_controllerController.button(ButtonConstants.kButtonRB).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_REVERSE_VALUE, () -> RollerConstants.ROLLER_REVERSE_VALUE2));
+      m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_REVERSE_VALUE, () -> RollerConstants.ROLLER_REVERSE_VALUE2));
       m_controllerController.button(ButtonConstants.kButtonY).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_SLOW_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
-      m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(new CoralJostlerCommand(m_coralRoller));
+      //m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(new CoralJostlerCommand(m_coralRoller));
     }
 
     if (m_algaePicker != null) {
-      m_algaePicker.setDefaultCommand(m_algaePicker.holdAlgae(m_algaePicker));
-      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker));
+      m_algaePicker.setDefaultCommand(m_algaePicker.holdAlgae(m_algaePicker, AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED));
+      m_controllerController.button(ButtonConstants.kButtonA).whileTrue(new ReachAndGrab(m_algaePicker)).onFalse(m_algaePicker.holdAlgae(m_algaePicker, AlgaeConstants.INTAKE_MOTOR_SPEED).withTimeout(20.0));
       m_controllerController.button(ButtonConstants.kButtonB).whileTrue(m_algaePicker.scoreAlgae(m_algaePicker));
     }
 
@@ -156,7 +166,24 @@ public class RobotContainer {
       });
     lowGearDis.setName("lowGearDis");
     m_driverController.button(ButtonConstants.kButtonRB).onFalse(lowGearDis);
+
+    InstantCommand switchCameraFront = new InstantCommand(
+      () -> {
+        server.setSource(frontCamera);
+       
+      });
+    switchCameraFront.setName("switchCameraFront");
+    m_controllerController.button(ButtonConstants.kButtonRB).onTrue(switchCameraFront);
+
+    InstantCommand switchCameraBack = new InstantCommand(
+      () -> {
+        server.setSource(backCamera);
+       
+      });
+    switchCameraBack.setName("switchCameraBack");
+    m_controllerController.button(ButtonConstants.kButtonRB).onFalse(switchCameraBack);
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
