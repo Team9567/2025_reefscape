@@ -105,8 +105,8 @@ public final class Constants {
     public static final double ALGAE_ARM_REACH_SPEED2 = -0.2;
     public static final double ALGAE_ARM_HOME_POSITION = 0.796;
     public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION - 0.135;
-    public static final double INTAKE_MOTOR_SPEED = 0.90;
-    public static final double INTAKE_HOLD_MOTOR_SPEED = 0.30;
+    public static final double INTAKE_MOTOR_SPEED = 1.00;
+    public static final double INTAKE_HOLD_MOTOR_SPEED = 0.50;
     public static final double PIVOT_HOLD_MOTOR_SPEED = 0.20;
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
@@ -146,12 +146,12 @@ public final class Constants {
     public static final double k_rightDist2 = -88;
     public static final double k_middleDist1 = -88;
     public static final double k_rollerForwardSpeed = 0.20;
-    public static final double k_rollerAutoSpeed = 0.16;
+    public static final double k_rollerAutoSpeed = 0.20;
     public static final double k_rollerReverseSpeed = 0.0;
     public static final double k_sideDist1 = -144.0;
     public static final double k_algaebatTurn = 180;
     public static final double k_algaebatDist1 = 24;
-    public static final double k_algaebatDist2 = -24;
+    public static final double k_algaebatDist2 = -18;
   }
 
   public static final class RobotConstants {

@@ -155,13 +155,14 @@ public class AlgaePickerSubsystem extends SubsystemBase {
     }
 
     public Command holdAlgae(
-            AlgaePickerSubsystem algaeSubsystem) {
+            AlgaePickerSubsystem algaeSubsystem, double intakespeed) {
         return Commands.run(
                 () -> {
                     double wrappedPivotAngle = algaeSubsystem.getWrappedPivotAngle();
                     double extensionAngle = AlgaeConstants.ALGAE_ARM_HOME_POSITION - wrappedPivotAngle;
                     double scalingFactor = extensionAngle / (AlgaeConstants.ALGAE_ARM_HOME_POSITION - AlgaeConstants.ALGAE_ARM_INTAKE_POSITION);
-                    intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
+                    //intakeMotor.set(AlgaeConstants.INTAKE_HOLD_MOTOR_SPEED);
+                    intakeMotor.set(intakespeed);
                     pivotMotor.set((AlgaeConstants.PIVOT_HOLD_MOTOR_SPEED * scalingFactor) + 0.02);
                     setBrake(false, false);
                     

@@ -83,9 +83,10 @@ public final class Autos {
   public static Command midCoralPlusAlgae(ChassieSubSystem subSystem, CoralRoller coralSubsystem, AlgaeBat batsubSystem, AlgaePickerSubsystem pickerSubsystem) {
     if (coralSubsystem != null) {
       return simpleAutoMiddle(subSystem, coralSubsystem)
-          .andThen(knockAlgae(subSystem, batsubSystem, pickerSubsystem).withTimeout(7.0))
+          .andThen(knockAlgae(subSystem, batsubSystem, pickerSubsystem).withTimeout(5.25))
+          .andThen(new TurnToAngle(20, subSystem))
           .andThen(new ReachAndGrab(pickerSubsystem)
-          .withTimeout(2.0));
+          .withTimeout(4.0));
 
     } else {
       return new DriveDistanceCommand(AutosConstants.k_sideDist1, subSystem);
