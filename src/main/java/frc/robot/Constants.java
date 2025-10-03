@@ -103,7 +103,7 @@ public final class Constants {
     public static final double ALGAE_EJECT_VALUE = 0.44;
     public static final double ALGAE_ARM_REACH_SPEED = -0.30;
     public static final double ALGAE_ARM_REACH_SPEED2 = -0.2;
-    public static final double ALGAE_ARM_HOME_POSITION = 0.796;
+    public static final double ALGAE_ARM_HOME_POSITION = 0.810;
     public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION - 0.135;
     public static final double INTAKE_MOTOR_SPEED = 1.00;
     public static final double INTAKE_HOLD_MOTOR_SPEED = 0.50;
