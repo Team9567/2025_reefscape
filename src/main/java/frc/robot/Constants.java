@@ -100,7 +100,7 @@ public final class Constants {
     public static final int PIVOT_MOTOR_ID = 6;
     public static final int INTAKE_MOTOR_ID = 7;
     public static final int ALGAE_RANGER_ID = 15;
-    public static final int ALGAE_MOTOR_CURRENT_LIMIT = 30;
+    public static final int ALGAE_MOTOR_CURRENT_LIMIT = 60;
     public static final double ALGAE_MOTOR_VOLTAGE_COMP = 10;
     public static final double ALGAE_EJECT_VALUE = 0.44;
     public static final double ALGAE_ARM_REACH_SPEED = -0.30;
