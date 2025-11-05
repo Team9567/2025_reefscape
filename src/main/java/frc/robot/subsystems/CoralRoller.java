@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.RollerConstants;
 
 /** Class to run the rollers over CAN */
@@ -27,45 +28,49 @@ public class CoralRoller extends SubsystemBase {
   LaserCan verticalRange;
 
   public CoralRoller() {
-    // Set up the roller motor as a brushless motor
-    rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushless);
+    if (RollerConstants.kIsEnabled) {
+      // Set up the roller motor as a brushless motor
+      rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushless);
 
-    horizontalRange = new LaserCan(RollerConstants.HORIZONTAL_RANGE_ID);
-    try {
-      horizontalRange.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
+      horizontalRange = new LaserCan(RollerConstants.HORIZONTAL_RANGE_ID);
+      try {
+        horizontalRange.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
+      }
+
+      catch (ConfigurationFailedException e) {
+        System.out.println("LaserCan error " + e);
+      }
+
+      verticalRange = new LaserCan(RollerConstants.VERTICAL_RANGE_ID);
+      try {
+        horizontalRange.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
+      }
+
+      catch (ConfigurationFailedException e) {
+        System.out.println("LaserCan error " + e);
+      }
+
+      // Set can timeout. Because this project only sets parameters once on
+      // construction, the timeout can be long without blocking robot operation. Code
+      // which sets or gets parameters during operation may need a shorter timeout.
+      rollerMotor.setCANTimeout(250);
+
+      // Create and apply configuration for roller motor. Voltage compensation helps
+      // the roller behave the same as the battery
+      // voltage dips. The current limit helps prevent breaker trips or burning out
+      // the motor in the event the roller stalls.
+      SparkMaxConfig rollerConfig = new SparkMaxConfig();
+      rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
+      rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
+      rollerConfig.inverted(true);
+      rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
-
-    catch (ConfigurationFailedException e) {
-      System.out.println("LaserCan error " + e);
-    }
-
-    verticalRange = new LaserCan(RollerConstants.VERTICAL_RANGE_ID);
-    try {
-      horizontalRange.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
-    }
-
-    catch (ConfigurationFailedException e) {
-      System.out.println("LaserCan error " + e);
-    }
-
-    // Set can timeout. Because this project only sets parameters once on
-    // construction, the timeout can be long without blocking robot operation. Code
-    // which sets or gets parameters during operation may need a shorter timeout.
-    rollerMotor.setCANTimeout(250);
-
-    // Create and apply configuration for roller motor. Voltage compensation helps
-    // the roller behave the same as the battery
-    // voltage dips. The current limit helps prevent breaker trips or burning out
-    // the motor in the event the roller stalls.
-    SparkMaxConfig rollerConfig = new SparkMaxConfig();
-    rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
-    rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
-    rollerConfig.inverted(true);
-    rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void runRollerRaw(double speed) {
-    rollerMotor.set(speed);
+    if (RollerConstants.kIsEnabled) {
+      rollerMotor.set(speed);
+    }
   }
 
   public boolean hasCoral() {
@@ -81,23 +86,29 @@ public class CoralRoller extends SubsystemBase {
   }
 
   public int getRangeHorz() {
-    LaserCan.Measurement horzMeasurement = horizontalRange.getMeasurement();
-    int horz = -1;
-    if (horzMeasurement != null && horzMeasurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
-      horz = horzMeasurement.distance_mm;
+    if (RollerConstants.kIsEnabled) {
+      LaserCan.Measurement horzMeasurement = horizontalRange.getMeasurement();
+      int horz = -1;
+      if (horzMeasurement != null && horzMeasurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+        horz = horzMeasurement.distance_mm;
+      }
+      SmartDashboard.putNumber("coral/horizontal", horz);
+      return horz;
     }
-    SmartDashboard.putNumber("coral/horizontal", horz);
-    return horz;
+    return 0;
   }
 
   public int getRangeVert() {
-    LaserCan.Measurement vertMeasurement = verticalRange.getMeasurement();
-    int vert = -1;
-    if (vertMeasurement != null && vertMeasurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
-      vert = vertMeasurement.distance_mm;
+    if (RollerConstants.kIsEnabled) {
+      LaserCan.Measurement vertMeasurement = verticalRange.getMeasurement();
+      int vert = -1;
+      if (vertMeasurement != null && vertMeasurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+        vert = vertMeasurement.distance_mm;
+      }
+      SmartDashboard.putNumber("coral/vertical", vert);
+      return vert;
     }
-    SmartDashboard.putNumber("coral/vertical", vert);
-    return vert;
+    return 0;
   }
 
   @Override
@@ -111,13 +122,14 @@ public class CoralRoller extends SubsystemBase {
 
 
   // Command to run the roller with joystick inputs
-  public Command runRoller(
-      CoralRoller rollerSubsystem, DoubleSupplier forward, DoubleSupplier reverse) {
-    return Commands.runEnd(
-        () -> rollerMotor.set(forward.getAsDouble() - reverse.getAsDouble()),
-        () -> rollerMotor.set(0.0),
-        rollerSubsystem
-        );
+  public Command runRoller(CoralRoller rollerSubsystem, DoubleSupplier forward, DoubleSupplier reverse) {
+    if (RollerConstants.kIsEnabled) {
+      return Commands.runEnd(
+          () -> rollerMotor.set(forward.getAsDouble() - reverse.getAsDouble()),
+          () -> rollerMotor.set(0.0),
+          rollerSubsystem
+          );
+    }
+    return run(()->{});
   }
-
 }
