@@ -64,6 +64,7 @@ public final class Constants {
     public static final boolean kGyroReversed = true;
     public static final NavXComType kGyroPort = NavXComType.kMXP_SPI;
     public static final double kLowGearSpeed = 0.50;
+    public static final boolean kIsEnabled = true;
    
   }
   public static class MathUtils {
@@ -92,6 +93,7 @@ public final class Constants {
     public static final double ROLLER_REVERSE_VALUE = 0.0;
     public static final double ROLLER_REVERSE_VALUE2 = 0.25;
     public static final double ROLLER_GEAR_RATIO = 2.0;
+    public static final boolean kIsEnabled = true;
   }
 
   public static final class AlgaeConstants {
@@ -103,7 +105,7 @@ public final class Constants {
     public static final double ALGAE_EJECT_VALUE = 0.44;
     public static final double ALGAE_ARM_REACH_SPEED = -0.30;
     public static final double ALGAE_ARM_REACH_SPEED2 = -0.2;
-    public static final double ALGAE_ARM_HOME_POSITION = 0.796;
+    public static final double ALGAE_ARM_HOME_POSITION = 0.810;
     public static final double ALGAE_ARM_INTAKE_POSITION = ALGAE_ARM_HOME_POSITION - 0.135;
     public static final double INTAKE_MOTOR_SPEED = 1.00;
     public static final double INTAKE_HOLD_MOTOR_SPEED = 0.50;
@@ -111,6 +113,7 @@ public final class Constants {
     public static final int SENSOR_LIMIT = 750;
     public static final double ALGAE_ARM_RETURN_SPEED = 0.6;
     public static final double SHOOT_MOTOR_SPEED = -0.9;
+    public static final boolean kIsEnabled = false;
   }
 
   public static final class AlgaeBatConstants {
@@ -121,6 +124,7 @@ public final class Constants {
     public static final double ALGAE_BAT_KNOCK_POSITION = 10.0;
     public static final int ALGAE_BAT_MOTOR_CURRENT_LIMIT = 40;
     public static final double ALGAE_BAT_MOTOR_VOLTAGE_COMP = 10;
+    public static final boolean kIsEnabled = true;
   }
 
   public static final class ClimberConstants {
@@ -135,6 +139,7 @@ public final class Constants {
     public static final double CLIMBER_MOTOR_UP_SPEED = 1.00;
     public static final double CLIMBER_MOTOR_DOWN_SPEED = -1.00;
     public static final double CLIMBER_MOTOR_SAFELIMIT = 163.0;
+    public static final boolean kIsEnabled = false;
   }
 
   public static final class AutosConstants {
@@ -152,6 +157,7 @@ public final class Constants {
     public static final double k_algaebatTurn = 180;
     public static final double k_algaebatDist1 = 24;
     public static final double k_algaebatDist2 = -18;
+    public static final boolean kIsEnabled = true;
   }
 
   public static final class RobotConstants {
