@@ -1,35 +1,31 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import au.grapplerobotics.LaserCan;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AlgaeBatConstants;
-import frc.robot.Constants.AlgaeConstants;
 
 public class AlgaeBat extends SubsystemBase {
-    final SparkMax pivotMotor;
+    final SparkFlex pivotMotor;
     LaserCan algaeRanger;
 
     public AlgaeBat() {
         // Set up the pivot motor as a brushless motor
-        pivotMotor = new SparkMax(AlgaeBatConstants.PIVOT_MOTOR_ID, MotorType.kBrushless);
+        pivotMotor = new SparkFlex(AlgaeBatConstants.PIVOT_MOTOR_ID, MotorType.kBrushless);
         pivotMotor.getEncoder().setPosition(0);
         pivotMotor.setCANTimeout(250);
 
-        SparkMaxConfig algaeBatConfig = new SparkMaxConfig();
+        SparkFlexConfig algaeBatConfig = new SparkFlexConfig();
         algaeBatConfig.voltageCompensation(AlgaeBatConstants.ALGAE_BAT_MOTOR_VOLTAGE_COMP);
         algaeBatConfig.smartCurrentLimit(AlgaeBatConstants.ALGAE_BAT_MOTOR_CURRENT_LIMIT);
         algaeBatConfig.idleMode(IdleMode.kBrake);

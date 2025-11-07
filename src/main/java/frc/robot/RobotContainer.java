@@ -4,12 +4,12 @@
 
 package frc.robot;
 
-import au.grapplerobotics.CanBridge;
+//import au.grapplerobotics.CanBridge;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -31,7 +31,7 @@ import frc.robot.subsystems.AlgaeBat;
 import frc.robot.subsystems.ChassieSubSystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CoralRoller;
-import au.grapplerobotics.CanBridge;
+//import au.grapplerobotics.CanBridge;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -68,7 +68,7 @@ public class RobotContainer {
       m_algaeBat = new AlgaeBat();
       m_climber = new Climber();
       // Creates UsbCamera
-      CameraServer.startAutomaticCapture();
+      //CameraServer.startAutomaticCapture();
       // enable lasercan config bridge
       //CanBridge.runTCP();
     }
@@ -95,7 +95,7 @@ public class RobotContainer {
     
     if (m_coralRoller != null) {
       m_coralRoller.setDefaultCommand(m_coralRoller.runRoller(m_coralRoller, ( ) -> 0,() -> 0));
-      m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
+      m_controllerController.button(ButtonConstants.kButtonX).whileTrue(m_coralRoller.runRollerVelocity(10.0));
       m_controllerController.button(ButtonConstants.kButtonRB).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_REVERSE_VALUE, () -> RollerConstants.ROLLER_REVERSE_VALUE2));
       m_controllerController.button(ButtonConstants.kButtonY).whileTrue(m_coralRoller.runRoller(m_coralRoller, () -> RollerConstants.ROLLER_SLOW_EJECT_VALUE, () -> RollerConstants.ROLLER_EJECT_VALUE2));
       m_controllerController.button(ButtonConstants.kButtonLB).whileTrue(new CoralJostlerCommand(m_coralRoller));

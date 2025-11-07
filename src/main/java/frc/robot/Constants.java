@@ -40,6 +40,7 @@ public final class Constants {
   }
   
   public static class ChassisConstants {
+    public static final boolean k_isEnabled = true;
     public static final int kDriverControllerPort = 0;
     public static final int kLeftFrontCanId = 2;
     public static final int kRightFrontCanId = 4;
@@ -79,6 +80,7 @@ public final class Constants {
     }
 
   public static final class RollerConstants {
+    public static final boolean k_isEnabled = true;
     public static final int ROLLER_MOTOR_ID = 5;
     public static final int HORIZONTAL_RANGE_ID = 16;
     public static final int HORIZONTAL_RANGE_UPPER_LIMIT = 400;
@@ -91,10 +93,29 @@ public final class Constants {
     public static final double ROLLER_SLOW_EJECT_VALUE = 0.20;
     public static final double ROLLER_REVERSE_VALUE = 0.0;
     public static final double ROLLER_REVERSE_VALUE2 = 0.25;
-    public static final double ROLLER_GEAR_RATIO = 2.0;
+    public static final double ROLLER_GEAR_RATIO = 0.5;
+    /* | Input Voltage | Output RPS |
+       +---------------+------------+
+       |     0.180     |    0.0     |
+       |     0.185     |    0.25    |
+       |     0.2       |    0.5     |
+       |     0.5       |    2.3     |
+       |     1.0       |    5.6     |
+       |     1.5       |    9.0     |
+       |     2.0       |    12.75   |
+       |     4.0       |    25.5    |
+       
+      Proportionate (kP) = ...
+      (4.0 - 0.5)
+      ------------ = 0.15
+      (25.5 - 2.3)
+     
+    */
+    public static  final double ROLLER_VOLTAGE_P = 0.20;
   }
 
   public static final class AlgaeConstants {
+    public static final boolean k_isEnabled = false;
     public static final int PIVOT_MOTOR_ID = 6;
     public static final int INTAKE_MOTOR_ID = 7;
     public static final int ALGAE_RANGER_ID = 15;
@@ -114,6 +135,7 @@ public final class Constants {
   }
 
   public static final class AlgaeBatConstants {
+    public static final boolean k_isEnabled = true;
     public static final int PIVOT_MOTOR_ID = 9;
     public static final double ALGAE_BAT_REACH_SPEED = 0.20;
     public static final double ALGAE_BAT_RETURN_SPEED = -0.80;
@@ -124,6 +146,7 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
+    public static final boolean k_isEnabled = false;
     public static final int CLIMBER_MOTOR_ID = 8;
     public static final int CLIMBER_MOTOR_HOMING_CURRENT_LIMIT = 5;
     public static final int CLIMBER_MOTOR_CLIMBING_CURRENT_LIMIT = 40;
@@ -138,6 +161,7 @@ public final class Constants {
   }
 
   public static final class AutosConstants {
+    public static final boolean k_isEnabled = true;
     public static final double k_leftDist1 = -58;
     public static final double k_leftAngle1 = -45;
     public static final double k_leftDist2 = -89;
@@ -154,6 +178,7 @@ public final class Constants {
   }
 
   public static final class RobotConstants {
+    public static final boolean k_isEnabled = true;
     public static final boolean k_IsCompBot = true;
   }
 }
